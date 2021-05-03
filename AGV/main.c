@@ -7,7 +7,7 @@
 
 int main(void)
 {
-
+    USART_Init(MYUBRR);
     //iwdjqwdja
     while(1)
     ;
