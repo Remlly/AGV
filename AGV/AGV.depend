@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1620648511 source:d:\agv\agv\agv\fuse.c
+	<avr/io.h>
+
+1621435662 source:d:\agv\agv\agv\main.c
+	<avr/io.h>
+	<stdio.h>
+	"serial.h"
+	"util/delay.h"
+
+1620648511 d:\agv\agv\agv\serial.h
+	<util/setbaud.h>
+	<avr/io.h>
+
+1620648511 source:d:\agv\agv\agv\serial.c
+	"serial.h"
+
