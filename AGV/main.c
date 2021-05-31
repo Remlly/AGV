@@ -5,56 +5,67 @@
 #include <stdio.h>
 #include "serial.h"
 #include "util/delay.h"
+#include <avr/interrupt.h>
+
+#define stepper_DDR DDRK
 
 struct stepper
 {
     uint8_t speed;
-    uint8_t pins[4];
+    uint8_t direction;
+    uint8_t step_pin;
+    uint8_t dir_pin;
     uint16_t steps;
 };
 
-void construct_stepper(struct stepper *stepper, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4)
-{
-    stepper->speed = 0;
-    stepper->steps = 0;
-    stepper->pins[0] = pin1;
-    stepper->pins[1] = pin2;
-    stepper->pins[2] = pin3;
-    stepper->pins[3] = pin4;
+volatile struct stepper stepper1;
+volatile struct stepper stepper2;
 
+void construct_stepper(struct stepper *stepper, uint8_t step_pin, uint8_t dir_pin)
+{
+    stepper->speed = 125;
+    stepper->steps = 0;
+    stepper->step_pin = step_pin;
+    stepper->dir_pin = dir_pin;
+    stepper->direction = 0;
 }
 
 void initialize_steppers()
 {
-    DDRC |= 0xFF;//init all pins in bank C
+    stepper_DDR |= 0xFF;//init all pins in bank C
+}
+
+void set_dir(struct stepper *stepper)
+{
+    switch(stepper->direction)
+    {
+    case 1:
+        stepper_DDR |= (1<<stepper->step_pin);
+        break;
+    case 2:
+        stepper_DDR &= ~(1<<stepper->step_pin);
+        break;
+    default:
+        break;
+    }
 }
 
 void step(struct stepper *stepper)
 {
     stepper->steps++;
-    for (int x = 0; x < 4; x++)
-    {
-      PORTC |= (1<<stepper->pins[x]);
-      _delay_us(600);
-      PORTC &= ~(1<<stepper->pins[x]);
-      _delay_us(600);
-    }
+    stepper_DDR |= (1<<stepper->step_pin);
+    _delay_ms(1);
+    stepper_DDR &= ~(1<<stepper->step_pin);
+    _delay_ms(1);
 }
 
-void reverse_step(struct stepper *stepper)
-{
-    stepper->steps--;
-    for (int x = 3; x >= 0; x--)
-    {
-      PORTC |= (1<<stepper->pins[x]);
-      _delay_us(600);
-      PORTC &= ~(1<<stepper->pins[x]);
-      _delay_us(600);
-    }
-}
+
 
 void init_stepper_timer()
 {
+    TCCR1A |= (0<<WGM11) | (1<<WGM10);
+    TCCR1B |= (1<<WGM12) | (0<<WGM13) | (0<<CS12) | (1<<CS11) | (1<<CS10);
+    TIMSK1 |= (1<<OCIE1A) | (1<<OCIE1B);
 
 }
 
@@ -62,20 +73,35 @@ int main(void)
 {
     ///initializing stepper motors///
 
-    struct stepper stepper1;
-    struct stepper stepper2;
-    construct_stepper(&stepper1, PC0, PC1, PC2, PC3);
-    construct_stepper(&stepper2, PC4, PC5, PC6, PC7);
+
+    construct_stepper(&stepper1, PK0, PK1);
+    construct_stepper(&stepper2, PK2, PK3);
     initialize_steppers();
+    init_stepper_timer();
+    sei();
 
     ///initializing serial coms
     USART_Init(MYUBRR);
+
+    set_dir(&stepper1);
+    set_dir(&stepper2);
     while(1)
     {
-        reverse_step(&stepper1);
 
     }
     ;
 
     return 0;
+}
+
+ISR(TIMER1_COMPA_vect)
+{
+    step(&stepper1);
+    OCR1A = stepper1.speed;
+}
+
+ISR(TIMER1_COMPB_vect)
+{
+    step(&stepper2);
+    OCR1B = stepper2.speed;
 }
