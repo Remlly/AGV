@@ -2,13 +2,11 @@
 1620648511 source:d:\agv\agv\agv\fuse.c
 	<avr/io.h>
 
-1622468364 source:d:\agv\agv\agv\main.c
+1622459693 source:d:\agv\agv\agv\main.c
 	<avr/io.h>
 	<stdio.h>
-	"util/delay.h"
-	<avr/interrupt.h>
-	"stepper.h"
 	"serial.h"
+	"util/delay.h"
 
 1620648511 d:\agv\agv\agv\serial.h
 	<util/setbaud.h>
@@ -16,8 +14,4 @@
 
 1620648511 source:d:\agv\agv\agv\serial.c
 	"serial.h"
-
-1622468455 d:\agv\agv\agv\stepper.h
-	<avr/io.h>
-	<stdio.h>
 
