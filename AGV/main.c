@@ -8,6 +8,7 @@
 #include <avr/interrupt.h>
 
 #define stepper_DDR DDRK
+#define stepper_port PORTK
 
 struct stepper
 {
@@ -40,10 +41,10 @@ void set_dir(struct stepper *stepper)
     switch(stepper->direction)
     {
     case 1:
-        stepper_DDR |= (1<<stepper->step_pin);
+        stepper_port |= (1<<stepper->step_pin);
         break;
     case 2:
-        stepper_DDR &= ~(1<<stepper->step_pin);
+        stepper_port &= ~(1<<stepper->step_pin);
         break;
     default:
         break;
@@ -53,10 +54,10 @@ void set_dir(struct stepper *stepper)
 void step(struct stepper *stepper)
 {
     stepper->steps++;
-    stepper_DDR |= (1<<stepper->step_pin);
-    _delay_ms(1);
-    stepper_DDR &= ~(1<<stepper->step_pin);
-    _delay_ms(1);
+    stepper_port |= (1<<stepper->step_pin);
+    _delay_ms(10);
+    stepper_port &= ~(1<<stepper->step_pin);
+    _delay_ms(10);
 }
 
 
@@ -78,7 +79,7 @@ int main(void)
     construct_stepper(&stepper2, PK2, PK3);
     initialize_steppers();
     init_stepper_timer();
-    sei();
+    //sei();
 
     ///initializing serial coms
     USART_Init(MYUBRR);
@@ -87,7 +88,7 @@ int main(void)
     set_dir(&stepper2);
     while(1)
     {
-
+        step(&stepper1);
     }
     ;
 
