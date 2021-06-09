@@ -56,6 +56,14 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="serial.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="serial.h" />
+		<Unit filename="stepper.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stepper.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
