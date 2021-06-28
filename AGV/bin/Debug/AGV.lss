@@ -11,23 +11,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
   3 .fuse         00000003  00820000  00820000  00001bbe  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  4 .debug_aranges 000001e0  00000000  00000000  00001bc1  2**0
+  4 .debug_aranges 00000200  00000000  00000000  00001bc1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_pubnames 00000344  00000000  00000000  00001da1  2**0
+  5 .debug_pubnames 0000035e  00000000  00000000  00001dc1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00002a86  00000000  00000000  000020e5  2**0
+  6 .debug_info   00002ba3  00000000  00000000  0000211f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000015fe  00000000  00000000  00004b6b  2**0
+  7 .debug_abbrev 0000169a  00000000  00000000  00004cc2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001869  00000000  00000000  00006169  2**0
+  8 .debug_line   00001907  00000000  00000000  0000635c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002d0  00000000  00000000  000079d4  2**2
+  9 .debug_frame  000002e0  00000000  00000000  00007c64  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000550  00000000  00000000  00007ca4  2**0
+ 10 .debug_str    0000055a  00000000  00000000  00007f44  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000009ce  00000000  00000000  000081f4  2**0
+ 11 .debug_loc    000009ce  00000000  00000000  0000849e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000050  00000000  00000000  00008bc2  2**0
+ 12 .debug_ranges 00000050  00000000  00000000  00008e6c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -56,7 +56,7 @@ Disassembly of section .text:
       50:	0c 94 93 00 	jmp	0x126	; 0x126 <__bad_interrupt>
       54:	0c 94 93 00 	jmp	0x126	; 0x126 <__bad_interrupt>
       58:	0c 94 93 00 	jmp	0x126	; 0x126 <__bad_interrupt>
-      5c:	0c 94 d6 04 	jmp	0x9ac	; 0x9ac <__vector_23>
+      5c:	0c 94 c4 00 	jmp	0x188	; 0x188 <__vector_23>
       60:	0c 94 93 00 	jmp	0x126	; 0x126 <__bad_interrupt>
       64:	0c 94 93 00 	jmp	0x126	; 0x126 <__bad_interrupt>
       68:	0c 94 93 00 	jmp	0x126	; 0x126 <__bad_interrupt>
@@ -129,1689 +129,1692 @@ Disassembly of section .text:
      118:	a0 32       	cpi	r26, 0x20	; 32
      11a:	b1 07       	cpc	r27, r17
      11c:	e1 f7       	brne	.-8      	; 0x116 <.do_clear_bss_loop>
-     11e:	0e 94 a7 04 	call	0x94e	; 0x94e <main>
+     11e:	0e 94 95 00 	call	0x12a	; 0x12a <main>
      122:	0c 94 ff 0c 	jmp	0x19fe	; 0x19fe <_exit>
 
 00000126 <__bad_interrupt>:
      126:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-0000012a <construct_stepper>:
-volatile long int ms;
-volatile struct stepper stepper1;
-volatile struct stepper stepper2;
+0000012a <main>:
+#include <avr/interrupt.h>
 
-void construct_stepper(volatile struct stepper *stepper, uint8_t step_pin, uint8_t dir_pin)
-{
-     12a:	df 93       	push	r29
-     12c:	cf 93       	push	r28
-     12e:	00 d0       	rcall	.+0      	; 0x130 <construct_stepper+0x6>
-     130:	0f 92       	push	r0
-     132:	cd b7       	in	r28, 0x3d	; 61
-     134:	de b7       	in	r29, 0x3e	; 62
-     136:	9a 83       	std	Y+2, r25	; 0x02
-     138:	89 83       	std	Y+1, r24	; 0x01
-     13a:	6b 83       	std	Y+3, r22	; 0x03
-     13c:	4c 83       	std	Y+4, r20	; 0x04
-    stepper->last_step = ms;
-     13e:	80 91 1c 03 	lds	r24, 0x031C
-     142:	90 91 1d 03 	lds	r25, 0x031D
-     146:	a0 91 1e 03 	lds	r26, 0x031E
-     14a:	b0 91 1f 03 	lds	r27, 0x031F
-     14e:	e9 81       	ldd	r30, Y+1	; 0x01
-     150:	fa 81       	ldd	r31, Y+2	; 0x02
-     152:	80 83       	st	Z, r24
-     154:	91 83       	std	Z+1, r25	; 0x01
-     156:	a2 83       	std	Z+2, r26	; 0x02
-     158:	b3 83       	std	Z+3, r27	; 0x03
-    stepper->time_profile = 1;
-     15a:	e9 81       	ldd	r30, Y+1	; 0x01
-     15c:	fa 81       	ldd	r31, Y+2	; 0x02
-     15e:	81 e0       	ldi	r24, 0x01	; 1
-     160:	84 83       	std	Z+4, r24	; 0x04
-    stepper->steps = 0;
-     162:	e9 81       	ldd	r30, Y+1	; 0x01
-     164:	fa 81       	ldd	r31, Y+2	; 0x02
-     166:	11 86       	std	Z+9, r1	; 0x09
-     168:	10 86       	std	Z+8, r1	; 0x08
-    stepper->step_pin = step_pin;
-     16a:	e9 81       	ldd	r30, Y+1	; 0x01
-     16c:	fa 81       	ldd	r31, Y+2	; 0x02
-     16e:	8b 81       	ldd	r24, Y+3	; 0x03
-     170:	86 83       	std	Z+6, r24	; 0x06
-    stepper->dir_pin = dir_pin;
-     172:	e9 81       	ldd	r30, Y+1	; 0x01
-     174:	fa 81       	ldd	r31, Y+2	; 0x02
-     176:	8c 81       	ldd	r24, Y+4	; 0x04
-     178:	87 83       	std	Z+7, r24	; 0x07
-    stepper->direction = 0;
-     17a:	e9 81       	ldd	r30, Y+1	; 0x01
-     17c:	fa 81       	ldd	r31, Y+2	; 0x02
-     17e:	15 82       	std	Z+5, r1	; 0x05
-}
-     180:	0f 90       	pop	r0
-     182:	0f 90       	pop	r0
-     184:	0f 90       	pop	r0
-     186:	0f 90       	pop	r0
-     188:	cf 91       	pop	r28
-     18a:	df 91       	pop	r29
-     18c:	08 95       	ret
-
-0000018e <initialize_steppers>:
-
-void initialize_steppers()
-{
-     18e:	df 93       	push	r29
-     190:	cf 93       	push	r28
-     192:	0f 92       	push	r0
-     194:	cd b7       	in	r28, 0x3d	; 61
-     196:	de b7       	in	r29, 0x3e	; 62
-    stepper_DDR |= 0xFF;//init all pins in bank C
-     198:	e7 e0       	ldi	r30, 0x07	; 7
-     19a:	f1 e0       	ldi	r31, 0x01	; 1
-     19c:	80 81       	ld	r24, Z
-     19e:	e7 e0       	ldi	r30, 0x07	; 7
-     1a0:	f1 e0       	ldi	r31, 0x01	; 1
-     1a2:	8f ef       	ldi	r24, 0xFF	; 255
-     1a4:	80 83       	st	Z, r24
-}
-     1a6:	0f 90       	pop	r0
-     1a8:	cf 91       	pop	r28
-     1aa:	df 91       	pop	r29
-     1ac:	08 95       	ret
-
-000001ae <set_dir>:
-
-void set_dir(volatile struct stepper *stepper)
-{
-     1ae:	df 93       	push	r29
-     1b0:	cf 93       	push	r28
-     1b2:	00 d0       	rcall	.+0      	; 0x1b4 <set_dir+0x6>
-     1b4:	0f 92       	push	r0
-     1b6:	cd b7       	in	r28, 0x3d	; 61
-     1b8:	de b7       	in	r29, 0x3e	; 62
-     1ba:	9a 83       	std	Y+2, r25	; 0x02
-     1bc:	89 83       	std	Y+1, r24	; 0x01
-    switch(stepper->direction)
-     1be:	e9 81       	ldd	r30, Y+1	; 0x01
-     1c0:	fa 81       	ldd	r31, Y+2	; 0x02
-     1c2:	85 81       	ldd	r24, Z+5	; 0x05
-     1c4:	28 2f       	mov	r18, r24
-     1c6:	30 e0       	ldi	r19, 0x00	; 0
-     1c8:	3c 83       	std	Y+4, r19	; 0x04
-     1ca:	2b 83       	std	Y+3, r18	; 0x03
-     1cc:	8b 81       	ldd	r24, Y+3	; 0x03
-     1ce:	9c 81       	ldd	r25, Y+4	; 0x04
-     1d0:	81 30       	cpi	r24, 0x01	; 1
-     1d2:	91 05       	cpc	r25, r1
-     1d4:	31 f0       	breq	.+12     	; 0x1e2 <set_dir+0x34>
-     1d6:	2b 81       	ldd	r18, Y+3	; 0x03
-     1d8:	3c 81       	ldd	r19, Y+4	; 0x04
-     1da:	22 30       	cpi	r18, 0x02	; 2
-     1dc:	31 05       	cpc	r19, r1
-     1de:	b9 f0       	breq	.+46     	; 0x20e <set_dir+0x60>
-     1e0:	2c c0       	rjmp	.+88     	; 0x23a <set_dir+0x8c>
-    {
-    case forward:
-        stepper_port |= (1<<stepper->dir_pin);
-     1e2:	a8 e0       	ldi	r26, 0x08	; 8
-     1e4:	b1 e0       	ldi	r27, 0x01	; 1
-     1e6:	e8 e0       	ldi	r30, 0x08	; 8
-     1e8:	f1 e0       	ldi	r31, 0x01	; 1
-     1ea:	80 81       	ld	r24, Z
-     1ec:	48 2f       	mov	r20, r24
-     1ee:	e9 81       	ldd	r30, Y+1	; 0x01
-     1f0:	fa 81       	ldd	r31, Y+2	; 0x02
-     1f2:	87 81       	ldd	r24, Z+7	; 0x07
-     1f4:	28 2f       	mov	r18, r24
-     1f6:	30 e0       	ldi	r19, 0x00	; 0
-     1f8:	81 e0       	ldi	r24, 0x01	; 1
-     1fa:	90 e0       	ldi	r25, 0x00	; 0
-     1fc:	02 2e       	mov	r0, r18
-     1fe:	02 c0       	rjmp	.+4      	; 0x204 <set_dir+0x56>
-     200:	88 0f       	add	r24, r24
-     202:	99 1f       	adc	r25, r25
-     204:	0a 94       	dec	r0
-     206:	e2 f7       	brpl	.-8      	; 0x200 <set_dir+0x52>
-     208:	84 2b       	or	r24, r20
-     20a:	8c 93       	st	X, r24
-     20c:	16 c0       	rjmp	.+44     	; 0x23a <set_dir+0x8c>
-        break;
-    case backward:
-        stepper_port &= ~(1<<stepper->dir_pin);
-     20e:	a8 e0       	ldi	r26, 0x08	; 8
-     210:	b1 e0       	ldi	r27, 0x01	; 1
-     212:	e8 e0       	ldi	r30, 0x08	; 8
-     214:	f1 e0       	ldi	r31, 0x01	; 1
-     216:	80 81       	ld	r24, Z
-     218:	48 2f       	mov	r20, r24
-     21a:	e9 81       	ldd	r30, Y+1	; 0x01
-     21c:	fa 81       	ldd	r31, Y+2	; 0x02
-     21e:	87 81       	ldd	r24, Z+7	; 0x07
-     220:	28 2f       	mov	r18, r24
-     222:	30 e0       	ldi	r19, 0x00	; 0
-     224:	81 e0       	ldi	r24, 0x01	; 1
-     226:	90 e0       	ldi	r25, 0x00	; 0
-     228:	02 2e       	mov	r0, r18
-     22a:	02 c0       	rjmp	.+4      	; 0x230 <set_dir+0x82>
-     22c:	88 0f       	add	r24, r24
-     22e:	99 1f       	adc	r25, r25
-     230:	0a 94       	dec	r0
-     232:	e2 f7       	brpl	.-8      	; 0x22c <set_dir+0x7e>
-     234:	80 95       	com	r24
-     236:	84 23       	and	r24, r20
-     238:	8c 93       	st	X, r24
-        break;
-    default:
-        break;
-    }
-}
-     23a:	0f 90       	pop	r0
-     23c:	0f 90       	pop	r0
-     23e:	0f 90       	pop	r0
-     240:	0f 90       	pop	r0
-     242:	cf 91       	pop	r28
-     244:	df 91       	pop	r29
-     246:	08 95       	ret
-
-00000248 <step>:
-
-void step(volatile struct stepper stepper)
-{
-     248:	0f 93       	push	r16
-     24a:	1f 93       	push	r17
-     24c:	df 93       	push	r29
-     24e:	cf 93       	push	r28
-     250:	cd b7       	in	r28, 0x3d	; 61
-     252:	de b7       	in	r29, 0x3e	; 62
-     254:	ea 97       	sbiw	r28, 0x3a	; 58
-     256:	0f b6       	in	r0, 0x3f	; 63
-     258:	f8 94       	cli
-     25a:	de bf       	out	0x3e, r29	; 62
-     25c:	0f be       	out	0x3f, r0	; 63
-     25e:	cd bf       	out	0x3d, r28	; 61
-     260:	09 ab       	std	Y+49, r16	; 0x31
-     262:	1a ab       	std	Y+50, r17	; 0x32
-     264:	2b ab       	std	Y+51, r18	; 0x33
-     266:	3c ab       	std	Y+52, r19	; 0x34
-     268:	4d ab       	std	Y+53, r20	; 0x35
-     26a:	5e ab       	std	Y+54, r21	; 0x36
-     26c:	6f ab       	std	Y+55, r22	; 0x37
-     26e:	78 af       	std	Y+56, r23	; 0x38
-     270:	89 af       	std	Y+57, r24	; 0x39
-     272:	9a af       	std	Y+58, r25	; 0x3a
-
-            stepper_port |= (1<<stepper.step_pin);
-     274:	a8 e0       	ldi	r26, 0x08	; 8
-     276:	b1 e0       	ldi	r27, 0x01	; 1
-     278:	e8 e0       	ldi	r30, 0x08	; 8
-     27a:	f1 e0       	ldi	r31, 0x01	; 1
-     27c:	80 81       	ld	r24, Z
-     27e:	48 2f       	mov	r20, r24
-     280:	8f a9       	ldd	r24, Y+55	; 0x37
-     282:	28 2f       	mov	r18, r24
-     284:	30 e0       	ldi	r19, 0x00	; 0
-     286:	81 e0       	ldi	r24, 0x01	; 1
-     288:	90 e0       	ldi	r25, 0x00	; 0
-     28a:	02 c0       	rjmp	.+4      	; 0x290 <step+0x48>
-     28c:	88 0f       	add	r24, r24
-     28e:	99 1f       	adc	r25, r25
-     290:	2a 95       	dec	r18
-     292:	e2 f7       	brpl	.-8      	; 0x28c <step+0x44>
-     294:	84 2b       	or	r24, r20
-     296:	8c 93       	st	X, r24
-     298:	80 e0       	ldi	r24, 0x00	; 0
-     29a:	90 e0       	ldi	r25, 0x00	; 0
-     29c:	a0 e0       	ldi	r26, 0x00	; 0
-     29e:	b0 e4       	ldi	r27, 0x40	; 64
-     2a0:	8d a7       	std	Y+45, r24	; 0x2d
-     2a2:	9e a7       	std	Y+46, r25	; 0x2e
-     2a4:	af a7       	std	Y+47, r26	; 0x2f
-     2a6:	b8 ab       	std	Y+48, r27	; 0x30
- */
-void
-_delay_us(double __us)
-{
-	uint8_t __ticks;
-	double __tmp = ((F_CPU) / 3e6) * __us;
-     2a8:	6d a5       	ldd	r22, Y+45	; 0x2d
-     2aa:	7e a5       	ldd	r23, Y+46	; 0x2e
-     2ac:	8f a5       	ldd	r24, Y+47	; 0x2f
-     2ae:	98 a9       	ldd	r25, Y+48	; 0x30
-     2b0:	2b ea       	ldi	r18, 0xAB	; 171
-     2b2:	3a ea       	ldi	r19, 0xAA	; 170
-     2b4:	4a ea       	ldi	r20, 0xAA	; 170
-     2b6:	50 e4       	ldi	r21, 0x40	; 64
-     2b8:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     2bc:	dc 01       	movw	r26, r24
-     2be:	cb 01       	movw	r24, r22
-     2c0:	89 a7       	std	Y+41, r24	; 0x29
-     2c2:	9a a7       	std	Y+42, r25	; 0x2a
-     2c4:	ab a7       	std	Y+43, r26	; 0x2b
-     2c6:	bc a7       	std	Y+44, r27	; 0x2c
-	if (__tmp < 1.0)
-     2c8:	69 a5       	ldd	r22, Y+41	; 0x29
-     2ca:	7a a5       	ldd	r23, Y+42	; 0x2a
-     2cc:	8b a5       	ldd	r24, Y+43	; 0x2b
-     2ce:	9c a5       	ldd	r25, Y+44	; 0x2c
-     2d0:	20 e0       	ldi	r18, 0x00	; 0
-     2d2:	30 e0       	ldi	r19, 0x00	; 0
-     2d4:	40 e8       	ldi	r20, 0x80	; 128
-     2d6:	5f e3       	ldi	r21, 0x3F	; 63
-     2d8:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
-     2dc:	88 23       	and	r24, r24
-     2de:	1c f4       	brge	.+6      	; 0x2e6 <step+0x9e>
-		__ticks = 1;
-     2e0:	81 e0       	ldi	r24, 0x01	; 1
-     2e2:	88 a7       	std	Y+40, r24	; 0x28
-     2e4:	91 c0       	rjmp	.+290    	; 0x408 <step+0x1c0>
-	else if (__tmp > 255)
-     2e6:	69 a5       	ldd	r22, Y+41	; 0x29
-     2e8:	7a a5       	ldd	r23, Y+42	; 0x2a
-     2ea:	8b a5       	ldd	r24, Y+43	; 0x2b
-     2ec:	9c a5       	ldd	r25, Y+44	; 0x2c
-     2ee:	20 e0       	ldi	r18, 0x00	; 0
-     2f0:	30 e0       	ldi	r19, 0x00	; 0
-     2f2:	4f e7       	ldi	r20, 0x7F	; 127
-     2f4:	53 e4       	ldi	r21, 0x43	; 67
-     2f6:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
-     2fa:	18 16       	cp	r1, r24
-     2fc:	0c f0       	brlt	.+2      	; 0x300 <step+0xb8>
-     2fe:	7b c0       	rjmp	.+246    	; 0x3f6 <step+0x1ae>
-	{
-		_delay_ms(__us / 1000.0);
-     300:	6d a5       	ldd	r22, Y+45	; 0x2d
-     302:	7e a5       	ldd	r23, Y+46	; 0x2e
-     304:	8f a5       	ldd	r24, Y+47	; 0x2f
-     306:	98 a9       	ldd	r25, Y+48	; 0x30
-     308:	20 e0       	ldi	r18, 0x00	; 0
-     30a:	30 e0       	ldi	r19, 0x00	; 0
-     30c:	4a e7       	ldi	r20, 0x7A	; 122
-     30e:	54 e4       	ldi	r21, 0x44	; 68
-     310:	0e 94 c3 08 	call	0x1186	; 0x1186 <__divsf3>
-     314:	dc 01       	movw	r26, r24
-     316:	cb 01       	movw	r24, r22
-     318:	8c a3       	std	Y+36, r24	; 0x24
-     31a:	9d a3       	std	Y+37, r25	; 0x25
-     31c:	ae a3       	std	Y+38, r26	; 0x26
-     31e:	bf a3       	std	Y+39, r27	; 0x27
- */
-void
-_delay_ms(double __ms)
-{
-	uint16_t __ticks;
-	double __tmp = ((F_CPU) / 4e3) * __ms;
-     320:	6c a1       	ldd	r22, Y+36	; 0x24
-     322:	7d a1       	ldd	r23, Y+37	; 0x25
-     324:	8e a1       	ldd	r24, Y+38	; 0x26
-     326:	9f a1       	ldd	r25, Y+39	; 0x27
-     328:	20 e0       	ldi	r18, 0x00	; 0
-     32a:	30 e0       	ldi	r19, 0x00	; 0
-     32c:	4a e7       	ldi	r20, 0x7A	; 122
-     32e:	55 e4       	ldi	r21, 0x45	; 69
-     330:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     334:	dc 01       	movw	r26, r24
-     336:	cb 01       	movw	r24, r22
-     338:	88 a3       	std	Y+32, r24	; 0x20
-     33a:	99 a3       	std	Y+33, r25	; 0x21
-     33c:	aa a3       	std	Y+34, r26	; 0x22
-     33e:	bb a3       	std	Y+35, r27	; 0x23
-	if (__tmp < 1.0)
-     340:	68 a1       	ldd	r22, Y+32	; 0x20
-     342:	79 a1       	ldd	r23, Y+33	; 0x21
-     344:	8a a1       	ldd	r24, Y+34	; 0x22
-     346:	9b a1       	ldd	r25, Y+35	; 0x23
-     348:	20 e0       	ldi	r18, 0x00	; 0
-     34a:	30 e0       	ldi	r19, 0x00	; 0
-     34c:	40 e8       	ldi	r20, 0x80	; 128
-     34e:	5f e3       	ldi	r21, 0x3F	; 63
-     350:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
-     354:	88 23       	and	r24, r24
-     356:	2c f4       	brge	.+10     	; 0x362 <step+0x11a>
-		__ticks = 1;
-     358:	81 e0       	ldi	r24, 0x01	; 1
-     35a:	90 e0       	ldi	r25, 0x00	; 0
-     35c:	9f 8f       	std	Y+31, r25	; 0x1f
-     35e:	8e 8f       	std	Y+30, r24	; 0x1e
-     360:	3f c0       	rjmp	.+126    	; 0x3e0 <step+0x198>
-	else if (__tmp > 65535)
-     362:	68 a1       	ldd	r22, Y+32	; 0x20
-     364:	79 a1       	ldd	r23, Y+33	; 0x21
-     366:	8a a1       	ldd	r24, Y+34	; 0x22
-     368:	9b a1       	ldd	r25, Y+35	; 0x23
-     36a:	20 e0       	ldi	r18, 0x00	; 0
-     36c:	3f ef       	ldi	r19, 0xFF	; 255
-     36e:	4f e7       	ldi	r20, 0x7F	; 127
-     370:	57 e4       	ldi	r21, 0x47	; 71
-     372:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
-     376:	18 16       	cp	r1, r24
-     378:	4c f5       	brge	.+82     	; 0x3cc <step+0x184>
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-     37a:	6c a1       	ldd	r22, Y+36	; 0x24
-     37c:	7d a1       	ldd	r23, Y+37	; 0x25
-     37e:	8e a1       	ldd	r24, Y+38	; 0x26
-     380:	9f a1       	ldd	r25, Y+39	; 0x27
-     382:	20 e0       	ldi	r18, 0x00	; 0
-     384:	30 e0       	ldi	r19, 0x00	; 0
-     386:	40 e2       	ldi	r20, 0x20	; 32
-     388:	51 e4       	ldi	r21, 0x41	; 65
-     38a:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     38e:	dc 01       	movw	r26, r24
-     390:	cb 01       	movw	r24, r22
-     392:	bc 01       	movw	r22, r24
-     394:	cd 01       	movw	r24, r26
-     396:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
-     39a:	dc 01       	movw	r26, r24
-     39c:	cb 01       	movw	r24, r22
-     39e:	9f 8f       	std	Y+31, r25	; 0x1f
-     3a0:	8e 8f       	std	Y+30, r24	; 0x1e
-     3a2:	0f c0       	rjmp	.+30     	; 0x3c2 <step+0x17a>
-     3a4:	80 e9       	ldi	r24, 0x90	; 144
-     3a6:	91 e0       	ldi	r25, 0x01	; 1
-     3a8:	9d 8f       	std	Y+29, r25	; 0x1d
-     3aa:	8c 8f       	std	Y+28, r24	; 0x1c
-    milliseconds can be achieved.
- */
-void
-_delay_loop_2(uint16_t __count)
-{
-	__asm__ volatile (
-     3ac:	8c 8d       	ldd	r24, Y+28	; 0x1c
-     3ae:	9d 8d       	ldd	r25, Y+29	; 0x1d
-     3b0:	01 97       	sbiw	r24, 0x01	; 1
-     3b2:	f1 f7       	brne	.-4      	; 0x3b0 <step+0x168>
-     3b4:	9d 8f       	std	Y+29, r25	; 0x1d
-     3b6:	8c 8f       	std	Y+28, r24	; 0x1c
-		while(__ticks)
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
-     3b8:	8e 8d       	ldd	r24, Y+30	; 0x1e
-     3ba:	9f 8d       	ldd	r25, Y+31	; 0x1f
-     3bc:	01 97       	sbiw	r24, 0x01	; 1
-     3be:	9f 8f       	std	Y+31, r25	; 0x1f
-     3c0:	8e 8f       	std	Y+30, r24	; 0x1e
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-     3c2:	8e 8d       	ldd	r24, Y+30	; 0x1e
-     3c4:	9f 8d       	ldd	r25, Y+31	; 0x1f
-     3c6:	00 97       	sbiw	r24, 0x00	; 0
-     3c8:	69 f7       	brne	.-38     	; 0x3a4 <step+0x15c>
-     3ca:	24 c0       	rjmp	.+72     	; 0x414 <step+0x1cc>
-			__ticks --;
-		}
-		return;
-	}
-	else
-		__ticks = (uint16_t)__tmp;
-     3cc:	68 a1       	ldd	r22, Y+32	; 0x20
-     3ce:	79 a1       	ldd	r23, Y+33	; 0x21
-     3d0:	8a a1       	ldd	r24, Y+34	; 0x22
-     3d2:	9b a1       	ldd	r25, Y+35	; 0x23
-     3d4:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
-     3d8:	dc 01       	movw	r26, r24
-     3da:	cb 01       	movw	r24, r22
-     3dc:	9f 8f       	std	Y+31, r25	; 0x1f
-     3de:	8e 8f       	std	Y+30, r24	; 0x1e
-     3e0:	8e 8d       	ldd	r24, Y+30	; 0x1e
-     3e2:	9f 8d       	ldd	r25, Y+31	; 0x1f
-     3e4:	9b 8f       	std	Y+27, r25	; 0x1b
-     3e6:	8a 8f       	std	Y+26, r24	; 0x1a
-     3e8:	8a 8d       	ldd	r24, Y+26	; 0x1a
-     3ea:	9b 8d       	ldd	r25, Y+27	; 0x1b
-     3ec:	01 97       	sbiw	r24, 0x01	; 1
-     3ee:	f1 f7       	brne	.-4      	; 0x3ec <step+0x1a4>
-     3f0:	9b 8f       	std	Y+27, r25	; 0x1b
-     3f2:	8a 8f       	std	Y+26, r24	; 0x1a
-     3f4:	0f c0       	rjmp	.+30     	; 0x414 <step+0x1cc>
-	{
-		_delay_ms(__us / 1000.0);
-		return;
-	}
-	else
-		__ticks = (uint8_t)__tmp;
-     3f6:	69 a5       	ldd	r22, Y+41	; 0x29
-     3f8:	7a a5       	ldd	r23, Y+42	; 0x2a
-     3fa:	8b a5       	ldd	r24, Y+43	; 0x2b
-     3fc:	9c a5       	ldd	r25, Y+44	; 0x2c
-     3fe:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
-     402:	dc 01       	movw	r26, r24
-     404:	cb 01       	movw	r24, r22
-     406:	88 a7       	std	Y+40, r24	; 0x28
-     408:	88 a5       	ldd	r24, Y+40	; 0x28
-     40a:	89 8f       	std	Y+25, r24	; 0x19
-    can be achieved.
-*/
-void
-_delay_loop_1(uint8_t __count)
-{
-	__asm__ volatile (
-     40c:	89 8d       	ldd	r24, Y+25	; 0x19
-     40e:	8a 95       	dec	r24
-     410:	f1 f7       	brne	.-4      	; 0x40e <step+0x1c6>
-     412:	89 8f       	std	Y+25, r24	; 0x19
-            _delay_us(2);
-            stepper_port &= ~(1<<stepper.step_pin);
-     414:	a8 e0       	ldi	r26, 0x08	; 8
-     416:	b1 e0       	ldi	r27, 0x01	; 1
-     418:	e8 e0       	ldi	r30, 0x08	; 8
-     41a:	f1 e0       	ldi	r31, 0x01	; 1
-     41c:	80 81       	ld	r24, Z
-     41e:	48 2f       	mov	r20, r24
-     420:	8f a9       	ldd	r24, Y+55	; 0x37
-     422:	28 2f       	mov	r18, r24
-     424:	30 e0       	ldi	r19, 0x00	; 0
-     426:	81 e0       	ldi	r24, 0x01	; 1
-     428:	90 e0       	ldi	r25, 0x00	; 0
-     42a:	02 c0       	rjmp	.+4      	; 0x430 <step+0x1e8>
-     42c:	88 0f       	add	r24, r24
-     42e:	99 1f       	adc	r25, r25
-     430:	2a 95       	dec	r18
-     432:	e2 f7       	brpl	.-8      	; 0x42c <step+0x1e4>
-     434:	80 95       	com	r24
-     436:	84 23       	and	r24, r20
-     438:	8c 93       	st	X, r24
-     43a:	80 e0       	ldi	r24, 0x00	; 0
-     43c:	90 e0       	ldi	r25, 0x00	; 0
-     43e:	a0 e0       	ldi	r26, 0x00	; 0
-     440:	b0 e4       	ldi	r27, 0x40	; 64
-     442:	8d 8b       	std	Y+21, r24	; 0x15
-     444:	9e 8b       	std	Y+22, r25	; 0x16
-     446:	af 8b       	std	Y+23, r26	; 0x17
-     448:	b8 8f       	std	Y+24, r27	; 0x18
- */
-void
-_delay_us(double __us)
-{
-	uint8_t __ticks;
-	double __tmp = ((F_CPU) / 3e6) * __us;
-     44a:	6d 89       	ldd	r22, Y+21	; 0x15
-     44c:	7e 89       	ldd	r23, Y+22	; 0x16
-     44e:	8f 89       	ldd	r24, Y+23	; 0x17
-     450:	98 8d       	ldd	r25, Y+24	; 0x18
-     452:	2b ea       	ldi	r18, 0xAB	; 171
-     454:	3a ea       	ldi	r19, 0xAA	; 170
-     456:	4a ea       	ldi	r20, 0xAA	; 170
-     458:	50 e4       	ldi	r21, 0x40	; 64
-     45a:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     45e:	dc 01       	movw	r26, r24
-     460:	cb 01       	movw	r24, r22
-     462:	89 8b       	std	Y+17, r24	; 0x11
-     464:	9a 8b       	std	Y+18, r25	; 0x12
-     466:	ab 8b       	std	Y+19, r26	; 0x13
-     468:	bc 8b       	std	Y+20, r27	; 0x14
-	if (__tmp < 1.0)
-     46a:	69 89       	ldd	r22, Y+17	; 0x11
-     46c:	7a 89       	ldd	r23, Y+18	; 0x12
-     46e:	8b 89       	ldd	r24, Y+19	; 0x13
-     470:	9c 89       	ldd	r25, Y+20	; 0x14
-     472:	20 e0       	ldi	r18, 0x00	; 0
-     474:	30 e0       	ldi	r19, 0x00	; 0
-     476:	40 e8       	ldi	r20, 0x80	; 128
-     478:	5f e3       	ldi	r21, 0x3F	; 63
-     47a:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
-     47e:	88 23       	and	r24, r24
-     480:	1c f4       	brge	.+6      	; 0x488 <step+0x240>
-		__ticks = 1;
-     482:	81 e0       	ldi	r24, 0x01	; 1
-     484:	88 8b       	std	Y+16, r24	; 0x10
-     486:	91 c0       	rjmp	.+290    	; 0x5aa <step+0x362>
-	else if (__tmp > 255)
-     488:	69 89       	ldd	r22, Y+17	; 0x11
-     48a:	7a 89       	ldd	r23, Y+18	; 0x12
-     48c:	8b 89       	ldd	r24, Y+19	; 0x13
-     48e:	9c 89       	ldd	r25, Y+20	; 0x14
-     490:	20 e0       	ldi	r18, 0x00	; 0
-     492:	30 e0       	ldi	r19, 0x00	; 0
-     494:	4f e7       	ldi	r20, 0x7F	; 127
-     496:	53 e4       	ldi	r21, 0x43	; 67
-     498:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
-     49c:	18 16       	cp	r1, r24
-     49e:	0c f0       	brlt	.+2      	; 0x4a2 <step+0x25a>
-     4a0:	7b c0       	rjmp	.+246    	; 0x598 <step+0x350>
-	{
-		_delay_ms(__us / 1000.0);
-     4a2:	6d 89       	ldd	r22, Y+21	; 0x15
-     4a4:	7e 89       	ldd	r23, Y+22	; 0x16
-     4a6:	8f 89       	ldd	r24, Y+23	; 0x17
-     4a8:	98 8d       	ldd	r25, Y+24	; 0x18
-     4aa:	20 e0       	ldi	r18, 0x00	; 0
-     4ac:	30 e0       	ldi	r19, 0x00	; 0
-     4ae:	4a e7       	ldi	r20, 0x7A	; 122
-     4b0:	54 e4       	ldi	r21, 0x44	; 68
-     4b2:	0e 94 c3 08 	call	0x1186	; 0x1186 <__divsf3>
-     4b6:	dc 01       	movw	r26, r24
-     4b8:	cb 01       	movw	r24, r22
-     4ba:	8c 87       	std	Y+12, r24	; 0x0c
-     4bc:	9d 87       	std	Y+13, r25	; 0x0d
-     4be:	ae 87       	std	Y+14, r26	; 0x0e
-     4c0:	bf 87       	std	Y+15, r27	; 0x0f
- */
-void
-_delay_ms(double __ms)
-{
-	uint16_t __ticks;
-	double __tmp = ((F_CPU) / 4e3) * __ms;
-     4c2:	6c 85       	ldd	r22, Y+12	; 0x0c
-     4c4:	7d 85       	ldd	r23, Y+13	; 0x0d
-     4c6:	8e 85       	ldd	r24, Y+14	; 0x0e
-     4c8:	9f 85       	ldd	r25, Y+15	; 0x0f
-     4ca:	20 e0       	ldi	r18, 0x00	; 0
-     4cc:	30 e0       	ldi	r19, 0x00	; 0
-     4ce:	4a e7       	ldi	r20, 0x7A	; 122
-     4d0:	55 e4       	ldi	r21, 0x45	; 69
-     4d2:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     4d6:	dc 01       	movw	r26, r24
-     4d8:	cb 01       	movw	r24, r22
-     4da:	88 87       	std	Y+8, r24	; 0x08
-     4dc:	99 87       	std	Y+9, r25	; 0x09
-     4de:	aa 87       	std	Y+10, r26	; 0x0a
-     4e0:	bb 87       	std	Y+11, r27	; 0x0b
-	if (__tmp < 1.0)
-     4e2:	68 85       	ldd	r22, Y+8	; 0x08
-     4e4:	79 85       	ldd	r23, Y+9	; 0x09
-     4e6:	8a 85       	ldd	r24, Y+10	; 0x0a
-     4e8:	9b 85       	ldd	r25, Y+11	; 0x0b
-     4ea:	20 e0       	ldi	r18, 0x00	; 0
-     4ec:	30 e0       	ldi	r19, 0x00	; 0
-     4ee:	40 e8       	ldi	r20, 0x80	; 128
-     4f0:	5f e3       	ldi	r21, 0x3F	; 63
-     4f2:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
-     4f6:	88 23       	and	r24, r24
-     4f8:	2c f4       	brge	.+10     	; 0x504 <step+0x2bc>
-		__ticks = 1;
-     4fa:	81 e0       	ldi	r24, 0x01	; 1
-     4fc:	90 e0       	ldi	r25, 0x00	; 0
-     4fe:	9f 83       	std	Y+7, r25	; 0x07
-     500:	8e 83       	std	Y+6, r24	; 0x06
-     502:	3f c0       	rjmp	.+126    	; 0x582 <step+0x33a>
-	else if (__tmp > 65535)
-     504:	68 85       	ldd	r22, Y+8	; 0x08
-     506:	79 85       	ldd	r23, Y+9	; 0x09
-     508:	8a 85       	ldd	r24, Y+10	; 0x0a
-     50a:	9b 85       	ldd	r25, Y+11	; 0x0b
-     50c:	20 e0       	ldi	r18, 0x00	; 0
-     50e:	3f ef       	ldi	r19, 0xFF	; 255
-     510:	4f e7       	ldi	r20, 0x7F	; 127
-     512:	57 e4       	ldi	r21, 0x47	; 71
-     514:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
-     518:	18 16       	cp	r1, r24
-     51a:	4c f5       	brge	.+82     	; 0x56e <step+0x326>
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-     51c:	6c 85       	ldd	r22, Y+12	; 0x0c
-     51e:	7d 85       	ldd	r23, Y+13	; 0x0d
-     520:	8e 85       	ldd	r24, Y+14	; 0x0e
-     522:	9f 85       	ldd	r25, Y+15	; 0x0f
-     524:	20 e0       	ldi	r18, 0x00	; 0
-     526:	30 e0       	ldi	r19, 0x00	; 0
-     528:	40 e2       	ldi	r20, 0x20	; 32
-     52a:	51 e4       	ldi	r21, 0x41	; 65
-     52c:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     530:	dc 01       	movw	r26, r24
-     532:	cb 01       	movw	r24, r22
-     534:	bc 01       	movw	r22, r24
-     536:	cd 01       	movw	r24, r26
-     538:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
-     53c:	dc 01       	movw	r26, r24
-     53e:	cb 01       	movw	r24, r22
-     540:	9f 83       	std	Y+7, r25	; 0x07
-     542:	8e 83       	std	Y+6, r24	; 0x06
-     544:	0f c0       	rjmp	.+30     	; 0x564 <step+0x31c>
-     546:	80 e9       	ldi	r24, 0x90	; 144
-     548:	91 e0       	ldi	r25, 0x01	; 1
-     54a:	9d 83       	std	Y+5, r25	; 0x05
-     54c:	8c 83       	std	Y+4, r24	; 0x04
-    milliseconds can be achieved.
- */
-void
-_delay_loop_2(uint16_t __count)
-{
-	__asm__ volatile (
-     54e:	8c 81       	ldd	r24, Y+4	; 0x04
-     550:	9d 81       	ldd	r25, Y+5	; 0x05
-     552:	01 97       	sbiw	r24, 0x01	; 1
-     554:	f1 f7       	brne	.-4      	; 0x552 <step+0x30a>
-     556:	9d 83       	std	Y+5, r25	; 0x05
-     558:	8c 83       	std	Y+4, r24	; 0x04
-		while(__ticks)
-		{
-			// wait 1/10 ms
-			_delay_loop_2(((F_CPU) / 4e3) / 10);
-			__ticks --;
-     55a:	8e 81       	ldd	r24, Y+6	; 0x06
-     55c:	9f 81       	ldd	r25, Y+7	; 0x07
-     55e:	01 97       	sbiw	r24, 0x01	; 1
-     560:	9f 83       	std	Y+7, r25	; 0x07
-     562:	8e 83       	std	Y+6, r24	; 0x06
-		__ticks = 1;
-	else if (__tmp > 65535)
-	{
-		//	__ticks = requested delay in 1/10 ms
-		__ticks = (uint16_t) (__ms * 10.0);
-		while(__ticks)
-     564:	8e 81       	ldd	r24, Y+6	; 0x06
-     566:	9f 81       	ldd	r25, Y+7	; 0x07
-     568:	00 97       	sbiw	r24, 0x00	; 0
-     56a:	69 f7       	brne	.-38     	; 0x546 <step+0x2fe>
-     56c:	24 c0       	rjmp	.+72     	; 0x5b6 <step+0x36e>
-			__ticks --;
-		}
-		return;
-	}
-	else
-		__ticks = (uint16_t)__tmp;
-     56e:	68 85       	ldd	r22, Y+8	; 0x08
-     570:	79 85       	ldd	r23, Y+9	; 0x09
-     572:	8a 85       	ldd	r24, Y+10	; 0x0a
-     574:	9b 85       	ldd	r25, Y+11	; 0x0b
-     576:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
-     57a:	dc 01       	movw	r26, r24
-     57c:	cb 01       	movw	r24, r22
-     57e:	9f 83       	std	Y+7, r25	; 0x07
-     580:	8e 83       	std	Y+6, r24	; 0x06
-     582:	8e 81       	ldd	r24, Y+6	; 0x06
-     584:	9f 81       	ldd	r25, Y+7	; 0x07
-     586:	9b 83       	std	Y+3, r25	; 0x03
-     588:	8a 83       	std	Y+2, r24	; 0x02
-     58a:	8a 81       	ldd	r24, Y+2	; 0x02
-     58c:	9b 81       	ldd	r25, Y+3	; 0x03
-     58e:	01 97       	sbiw	r24, 0x01	; 1
-     590:	f1 f7       	brne	.-4      	; 0x58e <step+0x346>
-     592:	9b 83       	std	Y+3, r25	; 0x03
-     594:	8a 83       	std	Y+2, r24	; 0x02
-     596:	0f c0       	rjmp	.+30     	; 0x5b6 <step+0x36e>
-	{
-		_delay_ms(__us / 1000.0);
-		return;
-	}
-	else
-		__ticks = (uint8_t)__tmp;
-     598:	69 89       	ldd	r22, Y+17	; 0x11
-     59a:	7a 89       	ldd	r23, Y+18	; 0x12
-     59c:	8b 89       	ldd	r24, Y+19	; 0x13
-     59e:	9c 89       	ldd	r25, Y+20	; 0x14
-     5a0:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
-     5a4:	dc 01       	movw	r26, r24
-     5a6:	cb 01       	movw	r24, r22
-     5a8:	88 8b       	std	Y+16, r24	; 0x10
-     5aa:	88 89       	ldd	r24, Y+16	; 0x10
-     5ac:	89 83       	std	Y+1, r24	; 0x01
-    can be achieved.
-*/
-void
-_delay_loop_1(uint8_t __count)
-{
-	__asm__ volatile (
-     5ae:	89 81       	ldd	r24, Y+1	; 0x01
-     5b0:	8a 95       	dec	r24
-     5b2:	f1 f7       	brne	.-4      	; 0x5b0 <step+0x368>
-     5b4:	89 83       	std	Y+1, r24	; 0x01
-            _delay_us(2);
-}
-     5b6:	ea 96       	adiw	r28, 0x3a	; 58
-     5b8:	0f b6       	in	r0, 0x3f	; 63
-     5ba:	f8 94       	cli
-     5bc:	de bf       	out	0x3e, r29	; 62
-     5be:	0f be       	out	0x3f, r0	; 63
-     5c0:	cd bf       	out	0x3d, r28	; 61
-     5c2:	cf 91       	pop	r28
-     5c4:	df 91       	pop	r29
-     5c6:	1f 91       	pop	r17
-     5c8:	0f 91       	pop	r16
-     5ca:	08 95       	ret
-
-000005cc <count_steps>:
-
-void count_steps(volatile struct stepper *stepperino)
-{
-     5cc:	df 93       	push	r29
-     5ce:	cf 93       	push	r28
-     5d0:	00 d0       	rcall	.+0      	; 0x5d2 <count_steps+0x6>
-     5d2:	0f 92       	push	r0
-     5d4:	cd b7       	in	r28, 0x3d	; 61
-     5d6:	de b7       	in	r29, 0x3e	; 62
-     5d8:	9a 83       	std	Y+2, r25	; 0x02
-     5da:	89 83       	std	Y+1, r24	; 0x01
-    switch(stepperino->direction)
-     5dc:	e9 81       	ldd	r30, Y+1	; 0x01
-     5de:	fa 81       	ldd	r31, Y+2	; 0x02
-     5e0:	85 81       	ldd	r24, Z+5	; 0x05
-     5e2:	28 2f       	mov	r18, r24
-     5e4:	30 e0       	ldi	r19, 0x00	; 0
-     5e6:	3c 83       	std	Y+4, r19	; 0x04
-     5e8:	2b 83       	std	Y+3, r18	; 0x03
-     5ea:	8b 81       	ldd	r24, Y+3	; 0x03
-     5ec:	9c 81       	ldd	r25, Y+4	; 0x04
-     5ee:	81 30       	cpi	r24, 0x01	; 1
-     5f0:	91 05       	cpc	r25, r1
-     5f2:	31 f0       	breq	.+12     	; 0x600 <count_steps+0x34>
-     5f4:	2b 81       	ldd	r18, Y+3	; 0x03
-     5f6:	3c 81       	ldd	r19, Y+4	; 0x04
-     5f8:	22 30       	cpi	r18, 0x02	; 2
-     5fa:	31 05       	cpc	r19, r1
-     5fc:	59 f0       	breq	.+22     	; 0x614 <count_steps+0x48>
-     5fe:	13 c0       	rjmp	.+38     	; 0x626 <count_steps+0x5a>
-        {
-        case forward:
-        stepperino->steps++;
-     600:	e9 81       	ldd	r30, Y+1	; 0x01
-     602:	fa 81       	ldd	r31, Y+2	; 0x02
-     604:	80 85       	ldd	r24, Z+8	; 0x08
-     606:	91 85       	ldd	r25, Z+9	; 0x09
-     608:	01 96       	adiw	r24, 0x01	; 1
-     60a:	e9 81       	ldd	r30, Y+1	; 0x01
-     60c:	fa 81       	ldd	r31, Y+2	; 0x02
-     60e:	91 87       	std	Z+9, r25	; 0x09
-     610:	80 87       	std	Z+8, r24	; 0x08
-     612:	09 c0       	rjmp	.+18     	; 0x626 <count_steps+0x5a>
-        break;
-        case backward:
-        stepperino->steps--;
-     614:	e9 81       	ldd	r30, Y+1	; 0x01
-     616:	fa 81       	ldd	r31, Y+2	; 0x02
-     618:	80 85       	ldd	r24, Z+8	; 0x08
-     61a:	91 85       	ldd	r25, Z+9	; 0x09
-     61c:	01 97       	sbiw	r24, 0x01	; 1
-     61e:	e9 81       	ldd	r30, Y+1	; 0x01
-     620:	fa 81       	ldd	r31, Y+2	; 0x02
-     622:	91 87       	std	Z+9, r25	; 0x09
-     624:	80 87       	std	Z+8, r24	; 0x08
-        break;
-        default:
-        break;
-        }
-}
-     626:	0f 90       	pop	r0
-     628:	0f 90       	pop	r0
-     62a:	0f 90       	pop	r0
-     62c:	0f 90       	pop	r0
-     62e:	cf 91       	pop	r28
-     630:	df 91       	pop	r29
-     632:	08 95       	ret
-
-00000634 <Handle_steps>:
-
-void Handle_steps(volatile struct stepper *stepperino)
-{
-     634:	0f 93       	push	r16
-     636:	1f 93       	push	r17
-     638:	df 93       	push	r29
-     63a:	cf 93       	push	r28
-     63c:	0f 92       	push	r0
-     63e:	0f 92       	push	r0
-     640:	cd b7       	in	r28, 0x3d	; 61
-     642:	de b7       	in	r29, 0x3e	; 62
-     644:	9a 83       	std	Y+2, r25	; 0x02
-     646:	89 83       	std	Y+1, r24	; 0x01
-    if(stepperino->time_profile == 0)
-     648:	e9 81       	ldd	r30, Y+1	; 0x01
-     64a:	fa 81       	ldd	r31, Y+2	; 0x02
-     64c:	84 81       	ldd	r24, Z+4	; 0x04
-     64e:	88 23       	and	r24, r24
-     650:	09 f4       	brne	.+2      	; 0x654 <Handle_steps+0x20>
-     652:	3e c0       	rjmp	.+124    	; 0x6d0 <Handle_steps+0x9c>
-    {
-
-    }
-    else if(ms >= (stepperino->last_step + stepperino->time_profile))
-     654:	e9 81       	ldd	r30, Y+1	; 0x01
-     656:	fa 81       	ldd	r31, Y+2	; 0x02
-     658:	20 81       	ld	r18, Z
-     65a:	31 81       	ldd	r19, Z+1	; 0x01
-     65c:	42 81       	ldd	r20, Z+2	; 0x02
-     65e:	53 81       	ldd	r21, Z+3	; 0x03
-     660:	e9 81       	ldd	r30, Y+1	; 0x01
-     662:	fa 81       	ldd	r31, Y+2	; 0x02
-     664:	84 81       	ldd	r24, Z+4	; 0x04
-     666:	88 2f       	mov	r24, r24
-     668:	90 e0       	ldi	r25, 0x00	; 0
-     66a:	a0 e0       	ldi	r26, 0x00	; 0
-     66c:	b0 e0       	ldi	r27, 0x00	; 0
-     66e:	28 0f       	add	r18, r24
-     670:	39 1f       	adc	r19, r25
-     672:	4a 1f       	adc	r20, r26
-     674:	5b 1f       	adc	r21, r27
-     676:	80 91 1c 03 	lds	r24, 0x031C
-     67a:	90 91 1d 03 	lds	r25, 0x031D
-     67e:	a0 91 1e 03 	lds	r26, 0x031E
-     682:	b0 91 1f 03 	lds	r27, 0x031F
-     686:	82 17       	cp	r24, r18
-     688:	93 07       	cpc	r25, r19
-     68a:	a4 07       	cpc	r26, r20
-     68c:	b5 07       	cpc	r27, r21
-     68e:	04 f1       	brlt	.+64     	; 0x6d0 <Handle_steps+0x9c>
-    {
-        step(*stepperino);
-     690:	e9 81       	ldd	r30, Y+1	; 0x01
-     692:	fa 81       	ldd	r31, Y+2	; 0x02
-     694:	00 81       	ld	r16, Z
-     696:	11 81       	ldd	r17, Z+1	; 0x01
-     698:	22 81       	ldd	r18, Z+2	; 0x02
-     69a:	33 81       	ldd	r19, Z+3	; 0x03
-     69c:	44 81       	ldd	r20, Z+4	; 0x04
-     69e:	55 81       	ldd	r21, Z+5	; 0x05
-     6a0:	66 81       	ldd	r22, Z+6	; 0x06
-     6a2:	77 81       	ldd	r23, Z+7	; 0x07
-     6a4:	80 85       	ldd	r24, Z+8	; 0x08
-     6a6:	91 85       	ldd	r25, Z+9	; 0x09
-     6a8:	0e 94 24 01 	call	0x248	; 0x248 <step>
-        stepperino->last_step = ms;
-     6ac:	80 91 1c 03 	lds	r24, 0x031C
-     6b0:	90 91 1d 03 	lds	r25, 0x031D
-     6b4:	a0 91 1e 03 	lds	r26, 0x031E
-     6b8:	b0 91 1f 03 	lds	r27, 0x031F
-     6bc:	e9 81       	ldd	r30, Y+1	; 0x01
-     6be:	fa 81       	ldd	r31, Y+2	; 0x02
-     6c0:	80 83       	st	Z, r24
-     6c2:	91 83       	std	Z+1, r25	; 0x01
-     6c4:	a2 83       	std	Z+2, r26	; 0x02
-     6c6:	b3 83       	std	Z+3, r27	; 0x03
-        count_steps(stepperino);
-     6c8:	89 81       	ldd	r24, Y+1	; 0x01
-     6ca:	9a 81       	ldd	r25, Y+2	; 0x02
-     6cc:	0e 94 e6 02 	call	0x5cc	; 0x5cc <count_steps>
-
-    }
-}
-     6d0:	0f 90       	pop	r0
-     6d2:	0f 90       	pop	r0
-     6d4:	cf 91       	pop	r28
-     6d6:	df 91       	pop	r29
-     6d8:	1f 91       	pop	r17
-     6da:	0f 91       	pop	r16
-     6dc:	08 95       	ret
-
-000006de <turn>:
-
-void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct stepper *stepperino2)
-{
-     6de:	df 93       	push	r29
-     6e0:	cf 93       	push	r28
-     6e2:	cd b7       	in	r28, 0x3d	; 61
-     6e4:	de b7       	in	r29, 0x3e	; 62
-     6e6:	e0 97       	sbiw	r28, 0x30	; 48
-     6e8:	0f b6       	in	r0, 0x3f	; 63
-     6ea:	f8 94       	cli
-     6ec:	de bf       	out	0x3e, r29	; 62
-     6ee:	0f be       	out	0x3f, r0	; 63
-     6f0:	cd bf       	out	0x3d, r28	; 61
-     6f2:	98 8f       	std	Y+24, r25	; 0x18
-     6f4:	8f 8b       	std	Y+23, r24	; 0x17
-     6f6:	7a 8f       	std	Y+26, r23	; 0x1a
-     6f8:	69 8f       	std	Y+25, r22	; 0x19
-     6fa:	5c 8f       	std	Y+28, r21	; 0x1c
-     6fc:	4b 8f       	std	Y+27, r20	; 0x1b
-    int16_t turn_steps = (float)(0.55)*degrees;
-     6fe:	8f 89       	ldd	r24, Y+23	; 0x17
-     700:	98 8d       	ldd	r25, Y+24	; 0x18
-     702:	aa 27       	eor	r26, r26
-     704:	97 fd       	sbrc	r25, 7
-     706:	a0 95       	com	r26
-     708:	ba 2f       	mov	r27, r26
-     70a:	bc 01       	movw	r22, r24
-     70c:	cd 01       	movw	r24, r26
-     70e:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__floatsisf>
-     712:	dc 01       	movw	r26, r24
-     714:	cb 01       	movw	r24, r22
-     716:	bc 01       	movw	r22, r24
-     718:	cd 01       	movw	r24, r26
-     71a:	2d ec       	ldi	r18, 0xCD	; 205
-     71c:	3c ec       	ldi	r19, 0xCC	; 204
-     71e:	4c e0       	ldi	r20, 0x0C	; 12
-     720:	5f e3       	ldi	r21, 0x3F	; 63
-     722:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
-     726:	dc 01       	movw	r26, r24
-     728:	cb 01       	movw	r24, r22
-     72a:	bc 01       	movw	r22, r24
-     72c:	cd 01       	movw	r24, r26
-     72e:	0e 94 5d 0a 	call	0x14ba	; 0x14ba <__fixsfsi>
-     732:	dc 01       	movw	r26, r24
-     734:	cb 01       	movw	r24, r22
-     736:	9a 83       	std	Y+2, r25	; 0x02
-     738:	89 83       	std	Y+1, r24	; 0x01
-    struct stepper copy1 = *stepperino1;
-     73a:	89 8d       	ldd	r24, Y+25	; 0x19
-     73c:	9a 8d       	ldd	r25, Y+26	; 0x1a
-     73e:	9e 01       	movw	r18, r28
-     740:	2d 5f       	subi	r18, 0xFD	; 253
-     742:	3f 4f       	sbci	r19, 0xFF	; 255
-     744:	3e 8f       	std	Y+30, r19	; 0x1e
-     746:	2d 8f       	std	Y+29, r18	; 0x1d
-     748:	98 a3       	std	Y+32, r25	; 0x20
-     74a:	8f 8f       	std	Y+31, r24	; 0x1f
-     74c:	3a e0       	ldi	r19, 0x0A	; 10
-     74e:	39 a3       	std	Y+33, r19	; 0x21
-     750:	ef 8d       	ldd	r30, Y+31	; 0x1f
-     752:	f8 a1       	ldd	r31, Y+32	; 0x20
-     754:	00 80       	ld	r0, Z
-     756:	2f 8d       	ldd	r18, Y+31	; 0x1f
-     758:	38 a1       	ldd	r19, Y+32	; 0x20
-     75a:	2f 5f       	subi	r18, 0xFF	; 255
-     75c:	3f 4f       	sbci	r19, 0xFF	; 255
-     75e:	38 a3       	std	Y+32, r19	; 0x20
-     760:	2f 8f       	std	Y+31, r18	; 0x1f
-     762:	ed 8d       	ldd	r30, Y+29	; 0x1d
-     764:	fe 8d       	ldd	r31, Y+30	; 0x1e
-     766:	00 82       	st	Z, r0
-     768:	2d 8d       	ldd	r18, Y+29	; 0x1d
-     76a:	3e 8d       	ldd	r19, Y+30	; 0x1e
-     76c:	2f 5f       	subi	r18, 0xFF	; 255
-     76e:	3f 4f       	sbci	r19, 0xFF	; 255
-     770:	3e 8f       	std	Y+30, r19	; 0x1e
-     772:	2d 8f       	std	Y+29, r18	; 0x1d
-     774:	39 a1       	ldd	r19, Y+33	; 0x21
-     776:	31 50       	subi	r19, 0x01	; 1
-     778:	39 a3       	std	Y+33, r19	; 0x21
-     77a:	89 a1       	ldd	r24, Y+33	; 0x21
-     77c:	88 23       	and	r24, r24
-     77e:	41 f7       	brne	.-48     	; 0x750 <turn+0x72>
-    struct stepper copy2 = *stepperino2;
-     780:	8b 8d       	ldd	r24, Y+27	; 0x1b
-     782:	9c 8d       	ldd	r25, Y+28	; 0x1c
-     784:	fe 01       	movw	r30, r28
-     786:	3d 96       	adiw	r30, 0x0d	; 13
-     788:	fb a3       	std	Y+35, r31	; 0x23
-     78a:	ea a3       	std	Y+34, r30	; 0x22
-     78c:	9d a3       	std	Y+37, r25	; 0x25
-     78e:	8c a3       	std	Y+36, r24	; 0x24
-     790:	fa e0       	ldi	r31, 0x0A	; 10
-     792:	fe a3       	std	Y+38, r31	; 0x26
-     794:	ec a1       	ldd	r30, Y+36	; 0x24
-     796:	fd a1       	ldd	r31, Y+37	; 0x25
-     798:	00 80       	ld	r0, Z
-     79a:	2c a1       	ldd	r18, Y+36	; 0x24
-     79c:	3d a1       	ldd	r19, Y+37	; 0x25
-     79e:	2f 5f       	subi	r18, 0xFF	; 255
-     7a0:	3f 4f       	sbci	r19, 0xFF	; 255
-     7a2:	3d a3       	std	Y+37, r19	; 0x25
-     7a4:	2c a3       	std	Y+36, r18	; 0x24
-     7a6:	ea a1       	ldd	r30, Y+34	; 0x22
-     7a8:	fb a1       	ldd	r31, Y+35	; 0x23
-     7aa:	00 82       	st	Z, r0
-     7ac:	2a a1       	ldd	r18, Y+34	; 0x22
-     7ae:	3b a1       	ldd	r19, Y+35	; 0x23
-     7b0:	2f 5f       	subi	r18, 0xFF	; 255
-     7b2:	3f 4f       	sbci	r19, 0xFF	; 255
-     7b4:	3b a3       	std	Y+35, r19	; 0x23
-     7b6:	2a a3       	std	Y+34, r18	; 0x22
-     7b8:	3e a1       	ldd	r19, Y+38	; 0x26
-     7ba:	31 50       	subi	r19, 0x01	; 1
-     7bc:	3e a3       	std	Y+38, r19	; 0x26
-     7be:	8e a1       	ldd	r24, Y+38	; 0x26
-     7c0:	88 23       	and	r24, r24
-     7c2:	41 f7       	brne	.-48     	; 0x794 <turn+0xb6>
-
-        stepperino1->time_profile = 10;
-     7c4:	e9 8d       	ldd	r30, Y+25	; 0x19
-     7c6:	fa 8d       	ldd	r31, Y+26	; 0x1a
-     7c8:	8a e0       	ldi	r24, 0x0A	; 10
-     7ca:	84 83       	std	Z+4, r24	; 0x04
-        stepperino1->steps = 0;
-     7cc:	e9 8d       	ldd	r30, Y+25	; 0x19
-     7ce:	fa 8d       	ldd	r31, Y+26	; 0x1a
-     7d0:	11 86       	std	Z+9, r1	; 0x09
-     7d2:	10 86       	std	Z+8, r1	; 0x08
-        stepperino2->time_profile = 10;
-     7d4:	eb 8d       	ldd	r30, Y+27	; 0x1b
-     7d6:	fc 8d       	ldd	r31, Y+28	; 0x1c
-     7d8:	8a e0       	ldi	r24, 0x0A	; 10
-     7da:	84 83       	std	Z+4, r24	; 0x04
-        stepperino2->steps = 0;
-     7dc:	eb 8d       	ldd	r30, Y+27	; 0x1b
-     7de:	fc 8d       	ldd	r31, Y+28	; 0x1c
-     7e0:	11 86       	std	Z+9, r1	; 0x09
-     7e2:	10 86       	std	Z+8, r1	; 0x08
-
-    if(turn_steps > 0)
-     7e4:	89 81       	ldd	r24, Y+1	; 0x01
-     7e6:	9a 81       	ldd	r25, Y+2	; 0x02
-     7e8:	18 16       	cp	r1, r24
-     7ea:	19 06       	cpc	r1, r25
-     7ec:	14 f5       	brge	.+68     	; 0x832 <turn+0x154>
-    {
-        stepperino1->direction = forward;
-     7ee:	e9 8d       	ldd	r30, Y+25	; 0x19
-     7f0:	fa 8d       	ldd	r31, Y+26	; 0x1a
-     7f2:	81 e0       	ldi	r24, 0x01	; 1
-     7f4:	85 83       	std	Z+5, r24	; 0x05
-        stepperino2->direction = forward;
-     7f6:	eb 8d       	ldd	r30, Y+27	; 0x1b
-     7f8:	fc 8d       	ldd	r31, Y+28	; 0x1c
-     7fa:	81 e0       	ldi	r24, 0x01	; 1
-     7fc:	85 83       	std	Z+5, r24	; 0x05
-        set_dir(stepperino1);
-     7fe:	89 8d       	ldd	r24, Y+25	; 0x19
-     800:	9a 8d       	ldd	r25, Y+26	; 0x1a
-     802:	0e 94 d7 00 	call	0x1ae	; 0x1ae <set_dir>
-        set_dir(stepperino2);
-     806:	8b 8d       	ldd	r24, Y+27	; 0x1b
-     808:	9c 8d       	ldd	r25, Y+28	; 0x1c
-     80a:	0e 94 d7 00 	call	0x1ae	; 0x1ae <set_dir>
-     80e:	08 c0       	rjmp	.+16     	; 0x820 <turn+0x142>
-
-        while(stepperino1->steps < (int)turn_steps)
-        {
-        Handle_steps(stepperino1);
-     810:	89 8d       	ldd	r24, Y+25	; 0x19
-     812:	9a 8d       	ldd	r25, Y+26	; 0x1a
-     814:	0e 94 1a 03 	call	0x634	; 0x634 <Handle_steps>
-        Handle_steps(stepperino2);
-     818:	8b 8d       	ldd	r24, Y+27	; 0x1b
-     81a:	9c 8d       	ldd	r25, Y+28	; 0x1c
-     81c:	0e 94 1a 03 	call	0x634	; 0x634 <Handle_steps>
-        stepperino1->direction = forward;
-        stepperino2->direction = forward;
-        set_dir(stepperino1);
-        set_dir(stepperino2);
-
-        while(stepperino1->steps < (int)turn_steps)
-     820:	e9 8d       	ldd	r30, Y+25	; 0x19
-     822:	fa 8d       	ldd	r31, Y+26	; 0x1a
-     824:	20 85       	ldd	r18, Z+8	; 0x08
-     826:	31 85       	ldd	r19, Z+9	; 0x09
-     828:	89 81       	ldd	r24, Y+1	; 0x01
-     82a:	9a 81       	ldd	r25, Y+2	; 0x02
-     82c:	28 17       	cp	r18, r24
-     82e:	39 07       	cpc	r19, r25
-     830:	7c f3       	brlt	.-34     	; 0x810 <turn+0x132>
-        Handle_steps(stepperino1);
-        Handle_steps(stepperino2);
-        }
-    }
-
-    if(turn_steps < 0)
-     832:	89 81       	ldd	r24, Y+1	; 0x01
-     834:	9a 81       	ldd	r25, Y+2	; 0x02
-     836:	99 23       	and	r25, r25
-     838:	14 f5       	brge	.+68     	; 0x87e <turn+0x1a0>
-    {
-        //turn_steps = abs(turn_steps);
-        stepperino1->direction = backward;
-     83a:	e9 8d       	ldd	r30, Y+25	; 0x19
-     83c:	fa 8d       	ldd	r31, Y+26	; 0x1a
-     83e:	82 e0       	ldi	r24, 0x02	; 2
-     840:	85 83       	std	Z+5, r24	; 0x05
-        stepperino2->direction = backward;
-     842:	eb 8d       	ldd	r30, Y+27	; 0x1b
-     844:	fc 8d       	ldd	r31, Y+28	; 0x1c
-     846:	82 e0       	ldi	r24, 0x02	; 2
-     848:	85 83       	std	Z+5, r24	; 0x05
-        set_dir(stepperino1);
-     84a:	89 8d       	ldd	r24, Y+25	; 0x19
-     84c:	9a 8d       	ldd	r25, Y+26	; 0x1a
-     84e:	0e 94 d7 00 	call	0x1ae	; 0x1ae <set_dir>
-        set_dir(stepperino2);
-     852:	8b 8d       	ldd	r24, Y+27	; 0x1b
-     854:	9c 8d       	ldd	r25, Y+28	; 0x1c
-     856:	0e 94 d7 00 	call	0x1ae	; 0x1ae <set_dir>
-     85a:	08 c0       	rjmp	.+16     	; 0x86c <turn+0x18e>
-
-        while(stepperino2->steps > turn_steps)
-        {
-        //transmit_byte(turn_steps);
-        Handle_steps(stepperino1);
-     85c:	89 8d       	ldd	r24, Y+25	; 0x19
-     85e:	9a 8d       	ldd	r25, Y+26	; 0x1a
-     860:	0e 94 1a 03 	call	0x634	; 0x634 <Handle_steps>
-        Handle_steps(stepperino2);
-     864:	8b 8d       	ldd	r24, Y+27	; 0x1b
-     866:	9c 8d       	ldd	r25, Y+28	; 0x1c
-     868:	0e 94 1a 03 	call	0x634	; 0x634 <Handle_steps>
-        stepperino1->direction = backward;
-        stepperino2->direction = backward;
-        set_dir(stepperino1);
-        set_dir(stepperino2);
-
-        while(stepperino2->steps > turn_steps)
-     86c:	eb 8d       	ldd	r30, Y+27	; 0x1b
-     86e:	fc 8d       	ldd	r31, Y+28	; 0x1c
-     870:	20 85       	ldd	r18, Z+8	; 0x08
-     872:	31 85       	ldd	r19, Z+9	; 0x09
-     874:	89 81       	ldd	r24, Y+1	; 0x01
-     876:	9a 81       	ldd	r25, Y+2	; 0x02
-     878:	82 17       	cp	r24, r18
-     87a:	93 07       	cpc	r25, r19
-     87c:	7c f3       	brlt	.-34     	; 0x85c <turn+0x17e>
-        //transmit_byte(turn_steps);
-        Handle_steps(stepperino1);
-        Handle_steps(stepperino2);
-        }
-    }
-        *stepperino1 = copy1;
-     87e:	89 8d       	ldd	r24, Y+25	; 0x19
-     880:	9a 8d       	ldd	r25, Y+26	; 0x1a
-     882:	98 a7       	std	Y+40, r25	; 0x28
-     884:	8f a3       	std	Y+39, r24	; 0x27
-     886:	fe 01       	movw	r30, r28
-     888:	33 96       	adiw	r30, 0x03	; 3
-     88a:	fa a7       	std	Y+42, r31	; 0x2a
-     88c:	e9 a7       	std	Y+41, r30	; 0x29
-     88e:	fa e0       	ldi	r31, 0x0A	; 10
-     890:	fb a7       	std	Y+43, r31	; 0x2b
-     892:	e9 a5       	ldd	r30, Y+41	; 0x29
-     894:	fa a5       	ldd	r31, Y+42	; 0x2a
-     896:	00 80       	ld	r0, Z
-     898:	29 a5       	ldd	r18, Y+41	; 0x29
-     89a:	3a a5       	ldd	r19, Y+42	; 0x2a
-     89c:	2f 5f       	subi	r18, 0xFF	; 255
-     89e:	3f 4f       	sbci	r19, 0xFF	; 255
-     8a0:	3a a7       	std	Y+42, r19	; 0x2a
-     8a2:	29 a7       	std	Y+41, r18	; 0x29
-     8a4:	ef a1       	ldd	r30, Y+39	; 0x27
-     8a6:	f8 a5       	ldd	r31, Y+40	; 0x28
-     8a8:	00 82       	st	Z, r0
-     8aa:	2f a1       	ldd	r18, Y+39	; 0x27
-     8ac:	38 a5       	ldd	r19, Y+40	; 0x28
-     8ae:	2f 5f       	subi	r18, 0xFF	; 255
-     8b0:	3f 4f       	sbci	r19, 0xFF	; 255
-     8b2:	38 a7       	std	Y+40, r19	; 0x28
-     8b4:	2f a3       	std	Y+39, r18	; 0x27
-     8b6:	3b a5       	ldd	r19, Y+43	; 0x2b
-     8b8:	31 50       	subi	r19, 0x01	; 1
-     8ba:	3b a7       	std	Y+43, r19	; 0x2b
-     8bc:	8b a5       	ldd	r24, Y+43	; 0x2b
-     8be:	88 23       	and	r24, r24
-     8c0:	41 f7       	brne	.-48     	; 0x892 <turn+0x1b4>
-        *stepperino2 = copy2;
-     8c2:	8b 8d       	ldd	r24, Y+27	; 0x1b
-     8c4:	9c 8d       	ldd	r25, Y+28	; 0x1c
-     8c6:	9d a7       	std	Y+45, r25	; 0x2d
-     8c8:	8c a7       	std	Y+44, r24	; 0x2c
-     8ca:	fe 01       	movw	r30, r28
-     8cc:	3d 96       	adiw	r30, 0x0d	; 13
-     8ce:	ff a7       	std	Y+47, r31	; 0x2f
-     8d0:	ee a7       	std	Y+46, r30	; 0x2e
-     8d2:	fa e0       	ldi	r31, 0x0A	; 10
-     8d4:	f8 ab       	std	Y+48, r31	; 0x30
-     8d6:	ee a5       	ldd	r30, Y+46	; 0x2e
-     8d8:	ff a5       	ldd	r31, Y+47	; 0x2f
-     8da:	00 80       	ld	r0, Z
-     8dc:	2e a5       	ldd	r18, Y+46	; 0x2e
-     8de:	3f a5       	ldd	r19, Y+47	; 0x2f
-     8e0:	2f 5f       	subi	r18, 0xFF	; 255
-     8e2:	3f 4f       	sbci	r19, 0xFF	; 255
-     8e4:	3f a7       	std	Y+47, r19	; 0x2f
-     8e6:	2e a7       	std	Y+46, r18	; 0x2e
-     8e8:	ec a5       	ldd	r30, Y+44	; 0x2c
-     8ea:	fd a5       	ldd	r31, Y+45	; 0x2d
-     8ec:	00 82       	st	Z, r0
-     8ee:	2c a5       	ldd	r18, Y+44	; 0x2c
-     8f0:	3d a5       	ldd	r19, Y+45	; 0x2d
-     8f2:	2f 5f       	subi	r18, 0xFF	; 255
-     8f4:	3f 4f       	sbci	r19, 0xFF	; 255
-     8f6:	3d a7       	std	Y+45, r19	; 0x2d
-     8f8:	2c a7       	std	Y+44, r18	; 0x2c
-     8fa:	38 a9       	ldd	r19, Y+48	; 0x30
-     8fc:	31 50       	subi	r19, 0x01	; 1
-     8fe:	38 ab       	std	Y+48, r19	; 0x30
-     900:	88 a9       	ldd	r24, Y+48	; 0x30
-     902:	88 23       	and	r24, r24
-     904:	41 f7       	brne	.-48     	; 0x8d6 <turn+0x1f8>
-}
-     906:	e0 96       	adiw	r28, 0x30	; 48
-     908:	0f b6       	in	r0, 0x3f	; 63
-     90a:	f8 94       	cli
-     90c:	de bf       	out	0x3e, r29	; 62
-     90e:	0f be       	out	0x3f, r0	; 63
-     910:	cd bf       	out	0x3d, r28	; 61
-     912:	cf 91       	pop	r28
-     914:	df 91       	pop	r29
-     916:	08 95       	ret
-
-00000918 <init_stepper_timer0>:
-
-void init_stepper_timer0()
-{
-     918:	df 93       	push	r29
-     91a:	cf 93       	push	r28
-     91c:	cd b7       	in	r28, 0x3d	; 61
-     91e:	de b7       	in	r29, 0x3e	; 62
-    TCCR0A |= (0<<WGM01) | (0<<WGM00);
-     920:	a4 e4       	ldi	r26, 0x44	; 68
-     922:	b0 e0       	ldi	r27, 0x00	; 0
-     924:	e4 e4       	ldi	r30, 0x44	; 68
-     926:	f0 e0       	ldi	r31, 0x00	; 0
-     928:	80 81       	ld	r24, Z
-     92a:	8c 93       	st	X, r24
-    TCCR0B |= (0<<WGM02) | (1<<CS02) | (0<<CS01) | (0<<CS00);
-     92c:	a5 e4       	ldi	r26, 0x45	; 69
-     92e:	b0 e0       	ldi	r27, 0x00	; 0
-     930:	e5 e4       	ldi	r30, 0x45	; 69
-     932:	f0 e0       	ldi	r31, 0x00	; 0
-     934:	80 81       	ld	r24, Z
-     936:	84 60       	ori	r24, 0x04	; 4
-     938:	8c 93       	st	X, r24
-    TIMSK0 |= (1<<TOIE0);
-     93a:	ae e6       	ldi	r26, 0x6E	; 110
-     93c:	b0 e0       	ldi	r27, 0x00	; 0
-     93e:	ee e6       	ldi	r30, 0x6E	; 110
-     940:	f0 e0       	ldi	r31, 0x00	; 0
-     942:	80 81       	ld	r24, Z
-     944:	81 60       	ori	r24, 0x01	; 1
-     946:	8c 93       	st	X, r24
-}
-     948:	cf 91       	pop	r28
-     94a:	df 91       	pop	r29
-     94c:	08 95       	ret
-
-0000094e <main>:
+#include "stepper.h"
 
 int main(void)
 {
-     94e:	df 93       	push	r29
-     950:	cf 93       	push	r28
-     952:	cd b7       	in	r28, 0x3d	; 61
-     954:	de b7       	in	r29, 0x3e	; 62
+     12a:	df 93       	push	r29
+     12c:	cf 93       	push	r28
+     12e:	cd b7       	in	r28, 0x3d	; 61
+     130:	de b7       	in	r29, 0x3e	; 62
     ///initializing stepper motors///
     construct_stepper(&stepper1, PK0, PK1);
-     956:	82 e1       	ldi	r24, 0x12	; 18
-     958:	93 e0       	ldi	r25, 0x03	; 3
-     95a:	60 e0       	ldi	r22, 0x00	; 0
-     95c:	41 e0       	ldi	r20, 0x01	; 1
-     95e:	0e 94 95 00 	call	0x12a	; 0x12a <construct_stepper>
+     132:	82 e1       	ldi	r24, 0x12	; 18
+     134:	93 e0       	ldi	r25, 0x03	; 3
+     136:	60 e0       	ldi	r22, 0x00	; 0
+     138:	41 e0       	ldi	r20, 0x01	; 1
+     13a:	0e 94 e1 01 	call	0x3c2	; 0x3c2 <construct_stepper>
     construct_stepper(&stepper2, PK2, PK3);
-     962:	88 e0       	ldi	r24, 0x08	; 8
-     964:	93 e0       	ldi	r25, 0x03	; 3
-     966:	62 e0       	ldi	r22, 0x02	; 2
-     968:	43 e0       	ldi	r20, 0x03	; 3
-     96a:	0e 94 95 00 	call	0x12a	; 0x12a <construct_stepper>
+     13e:	88 e0       	ldi	r24, 0x08	; 8
+     140:	93 e0       	ldi	r25, 0x03	; 3
+     142:	62 e0       	ldi	r22, 0x02	; 2
+     144:	43 e0       	ldi	r20, 0x03	; 3
+     146:	0e 94 e1 01 	call	0x3c2	; 0x3c2 <construct_stepper>
     initialize_steppers();
-     96e:	0e 94 c7 00 	call	0x18e	; 0x18e <initialize_steppers>
+     14a:	0e 94 13 02 	call	0x426	; 0x426 <initialize_steppers>
     init_stepper_timer0();
-     972:	0e 94 8c 04 	call	0x918	; 0x918 <init_stepper_timer0>
+     14e:	0e 94 d8 05 	call	0xbb0	; 0xbb0 <init_stepper_timer0>
     sei();
-     976:	78 94       	sei
+     152:	78 94       	sei
 
     ///initializing serial coms
     USART_Init(MYUBRR);
-     978:	87 e6       	ldi	r24, 0x67	; 103
-     97a:	90 e0       	ldi	r25, 0x00	; 0
-     97c:	0e 94 01 05 	call	0xa02	; 0xa02 <USART_Init>
+     154:	87 e6       	ldi	r24, 0x67	; 103
+     156:	90 e0       	ldi	r25, 0x00	; 0
+     158:	0e 94 ef 00 	call	0x1de	; 0x1de <USART_Init>
 
     stepper2.direction = forward;
-     980:	81 e0       	ldi	r24, 0x01	; 1
-     982:	80 93 0d 03 	sts	0x030D, r24
+     15c:	81 e0       	ldi	r24, 0x01	; 1
+     15e:	80 93 0d 03 	sts	0x030D, r24
     stepper1.direction = backward;
-     986:	82 e0       	ldi	r24, 0x02	; 2
-     988:	80 93 17 03 	sts	0x0317, r24
+     162:	82 e0       	ldi	r24, 0x02	; 2
+     164:	80 93 17 03 	sts	0x0317, r24
     stepper1.time_profile = 10;
-     98c:	8a e0       	ldi	r24, 0x0A	; 10
-     98e:	80 93 16 03 	sts	0x0316, r24
+     168:	8a e0       	ldi	r24, 0x0A	; 10
+     16a:	80 93 16 03 	sts	0x0316, r24
     stepper2.time_profile = 10;
-     992:	8a e0       	ldi	r24, 0x0A	; 10
-     994:	80 93 0c 03 	sts	0x030C, r24
+     16e:	8a e0       	ldi	r24, 0x0A	; 10
+     170:	80 93 0c 03 	sts	0x030C, r24
 
     turn(-360, &stepper1, &stepper2);
-     998:	22 e1       	ldi	r18, 0x12	; 18
-     99a:	33 e0       	ldi	r19, 0x03	; 3
-     99c:	48 e0       	ldi	r20, 0x08	; 8
-     99e:	53 e0       	ldi	r21, 0x03	; 3
-     9a0:	88 e9       	ldi	r24, 0x98	; 152
-     9a2:	9e ef       	ldi	r25, 0xFE	; 254
-     9a4:	b9 01       	movw	r22, r18
-     9a6:	0e 94 6f 03 	call	0x6de	; 0x6de <turn>
-     9aa:	ff cf       	rjmp	.-2      	; 0x9aa <main+0x5c>
+     174:	22 e1       	ldi	r18, 0x12	; 18
+     176:	33 e0       	ldi	r19, 0x03	; 3
+     178:	48 e0       	ldi	r20, 0x08	; 8
+     17a:	53 e0       	ldi	r21, 0x03	; 3
+     17c:	88 e9       	ldi	r24, 0x98	; 152
+     17e:	9e ef       	ldi	r25, 0xFE	; 254
+     180:	b9 01       	movw	r22, r18
+     182:	0e 94 bb 04 	call	0x976	; 0x976 <turn>
+     186:	ff cf       	rjmp	.-2      	; 0x186 <main+0x5c>
 
-000009ac <__vector_23>:
+00000188 <__vector_23>:
 
     return 0;
 }
 
 ISR(TIMER0_OVF_vect)
 {
-     9ac:	1f 92       	push	r1
-     9ae:	0f 92       	push	r0
-     9b0:	0f b6       	in	r0, 0x3f	; 63
-     9b2:	0f 92       	push	r0
-     9b4:	11 24       	eor	r1, r1
-     9b6:	8f 93       	push	r24
-     9b8:	9f 93       	push	r25
-     9ba:	af 93       	push	r26
-     9bc:	bf 93       	push	r27
-     9be:	df 93       	push	r29
-     9c0:	cf 93       	push	r28
-     9c2:	cd b7       	in	r28, 0x3d	; 61
-     9c4:	de b7       	in	r29, 0x3e	; 62
+     188:	1f 92       	push	r1
+     18a:	0f 92       	push	r0
+     18c:	0f b6       	in	r0, 0x3f	; 63
+     18e:	0f 92       	push	r0
+     190:	11 24       	eor	r1, r1
+     192:	8f 93       	push	r24
+     194:	9f 93       	push	r25
+     196:	af 93       	push	r26
+     198:	bf 93       	push	r27
+     19a:	df 93       	push	r29
+     19c:	cf 93       	push	r28
+     19e:	cd b7       	in	r28, 0x3d	; 61
+     1a0:	de b7       	in	r29, 0x3e	; 62
     ms++;
-     9c6:	80 91 1c 03 	lds	r24, 0x031C
-     9ca:	90 91 1d 03 	lds	r25, 0x031D
-     9ce:	a0 91 1e 03 	lds	r26, 0x031E
-     9d2:	b0 91 1f 03 	lds	r27, 0x031F
-     9d6:	01 96       	adiw	r24, 0x01	; 1
-     9d8:	a1 1d       	adc	r26, r1
-     9da:	b1 1d       	adc	r27, r1
-     9dc:	80 93 1c 03 	sts	0x031C, r24
-     9e0:	90 93 1d 03 	sts	0x031D, r25
-     9e4:	a0 93 1e 03 	sts	0x031E, r26
-     9e8:	b0 93 1f 03 	sts	0x031F, r27
+     1a2:	80 91 1c 03 	lds	r24, 0x031C
+     1a6:	90 91 1d 03 	lds	r25, 0x031D
+     1aa:	a0 91 1e 03 	lds	r26, 0x031E
+     1ae:	b0 91 1f 03 	lds	r27, 0x031F
+     1b2:	01 96       	adiw	r24, 0x01	; 1
+     1b4:	a1 1d       	adc	r26, r1
+     1b6:	b1 1d       	adc	r27, r1
+     1b8:	80 93 1c 03 	sts	0x031C, r24
+     1bc:	90 93 1d 03 	sts	0x031D, r25
+     1c0:	a0 93 1e 03 	sts	0x031E, r26
+     1c4:	b0 93 1f 03 	sts	0x031F, r27
 }
-     9ec:	cf 91       	pop	r28
-     9ee:	df 91       	pop	r29
-     9f0:	bf 91       	pop	r27
-     9f2:	af 91       	pop	r26
-     9f4:	9f 91       	pop	r25
-     9f6:	8f 91       	pop	r24
-     9f8:	0f 90       	pop	r0
-     9fa:	0f be       	out	0x3f, r0	; 63
-     9fc:	0f 90       	pop	r0
-     9fe:	1f 90       	pop	r1
-     a00:	18 95       	reti
+     1c8:	cf 91       	pop	r28
+     1ca:	df 91       	pop	r29
+     1cc:	bf 91       	pop	r27
+     1ce:	af 91       	pop	r26
+     1d0:	9f 91       	pop	r25
+     1d2:	8f 91       	pop	r24
+     1d4:	0f 90       	pop	r0
+     1d6:	0f be       	out	0x3f, r0	; 63
+     1d8:	0f 90       	pop	r0
+     1da:	1f 90       	pop	r1
+     1dc:	18 95       	reti
 
-00000a02 <USART_Init>:
+000001de <USART_Init>:
 
 #include "serial.h"
 
 void USART_Init( unsigned int ubrr)
 {
-     a02:	df 93       	push	r29
-     a04:	cf 93       	push	r28
-     a06:	0f 92       	push	r0
-     a08:	0f 92       	push	r0
-     a0a:	cd b7       	in	r28, 0x3d	; 61
-     a0c:	de b7       	in	r29, 0x3e	; 62
-     a0e:	9a 83       	std	Y+2, r25	; 0x02
-     a10:	89 83       	std	Y+1, r24	; 0x01
+     1de:	df 93       	push	r29
+     1e0:	cf 93       	push	r28
+     1e2:	0f 92       	push	r0
+     1e4:	0f 92       	push	r0
+     1e6:	cd b7       	in	r28, 0x3d	; 61
+     1e8:	de b7       	in	r29, 0x3e	; 62
+     1ea:	9a 83       	std	Y+2, r25	; 0x02
+     1ec:	89 83       	std	Y+1, r24	; 0x01
     /*Set baud rate */
     UBRR0H = (unsigned char)(ubrr>>8);
-     a12:	e5 ec       	ldi	r30, 0xC5	; 197
-     a14:	f0 e0       	ldi	r31, 0x00	; 0
-     a16:	89 81       	ldd	r24, Y+1	; 0x01
-     a18:	9a 81       	ldd	r25, Y+2	; 0x02
-     a1a:	89 2f       	mov	r24, r25
-     a1c:	99 27       	eor	r25, r25
-     a1e:	80 83       	st	Z, r24
+     1ee:	e5 ec       	ldi	r30, 0xC5	; 197
+     1f0:	f0 e0       	ldi	r31, 0x00	; 0
+     1f2:	89 81       	ldd	r24, Y+1	; 0x01
+     1f4:	9a 81       	ldd	r25, Y+2	; 0x02
+     1f6:	89 2f       	mov	r24, r25
+     1f8:	99 27       	eor	r25, r25
+     1fa:	80 83       	st	Z, r24
     UBRR0L = (unsigned char)ubrr;
-     a20:	e4 ec       	ldi	r30, 0xC4	; 196
-     a22:	f0 e0       	ldi	r31, 0x00	; 0
-     a24:	89 81       	ldd	r24, Y+1	; 0x01
-     a26:	80 83       	st	Z, r24
+     1fc:	e4 ec       	ldi	r30, 0xC4	; 196
+     1fe:	f0 e0       	ldi	r31, 0x00	; 0
+     200:	89 81       	ldd	r24, Y+1	; 0x01
+     202:	80 83       	st	Z, r24
     /*Enable receiver and transmitter */
     UCSR0B |= (1<<RXEN0);
-     a28:	a1 ec       	ldi	r26, 0xC1	; 193
-     a2a:	b0 e0       	ldi	r27, 0x00	; 0
-     a2c:	e1 ec       	ldi	r30, 0xC1	; 193
-     a2e:	f0 e0       	ldi	r31, 0x00	; 0
-     a30:	80 81       	ld	r24, Z
-     a32:	80 61       	ori	r24, 0x10	; 16
-     a34:	8c 93       	st	X, r24
+     204:	a1 ec       	ldi	r26, 0xC1	; 193
+     206:	b0 e0       	ldi	r27, 0x00	; 0
+     208:	e1 ec       	ldi	r30, 0xC1	; 193
+     20a:	f0 e0       	ldi	r31, 0x00	; 0
+     20c:	80 81       	ld	r24, Z
+     20e:	80 61       	ori	r24, 0x10	; 16
+     210:	8c 93       	st	X, r24
     UCSR0B |= (1<<TXEN0);
-     a36:	a1 ec       	ldi	r26, 0xC1	; 193
-     a38:	b0 e0       	ldi	r27, 0x00	; 0
-     a3a:	e1 ec       	ldi	r30, 0xC1	; 193
-     a3c:	f0 e0       	ldi	r31, 0x00	; 0
-     a3e:	80 81       	ld	r24, Z
-     a40:	88 60       	ori	r24, 0x08	; 8
-     a42:	8c 93       	st	X, r24
+     212:	a1 ec       	ldi	r26, 0xC1	; 193
+     214:	b0 e0       	ldi	r27, 0x00	; 0
+     216:	e1 ec       	ldi	r30, 0xC1	; 193
+     218:	f0 e0       	ldi	r31, 0x00	; 0
+     21a:	80 81       	ld	r24, Z
+     21c:	88 60       	ori	r24, 0x08	; 8
+     21e:	8c 93       	st	X, r24
     /* Set frame format: 8data, 2stop bit */
     UCSR0C = (1<<UCSZ01)|(3<<UCSZ00);
-     a44:	e2 ec       	ldi	r30, 0xC2	; 194
-     a46:	f0 e0       	ldi	r31, 0x00	; 0
-     a48:	86 e0       	ldi	r24, 0x06	; 6
-     a4a:	80 83       	st	Z, r24
+     220:	e2 ec       	ldi	r30, 0xC2	; 194
+     222:	f0 e0       	ldi	r31, 0x00	; 0
+     224:	86 e0       	ldi	r24, 0x06	; 6
+     226:	80 83       	st	Z, r24
 }
-     a4c:	0f 90       	pop	r0
-     a4e:	0f 90       	pop	r0
-     a50:	cf 91       	pop	r28
-     a52:	df 91       	pop	r29
-     a54:	08 95       	ret
+     228:	0f 90       	pop	r0
+     22a:	0f 90       	pop	r0
+     22c:	cf 91       	pop	r28
+     22e:	df 91       	pop	r29
+     230:	08 95       	ret
 
-00000a56 <recieve_Byte>:
+00000232 <recieve_Byte>:
 
 
 uint8_t recieve_Byte(void)
 {
-     a56:	df 93       	push	r29
-     a58:	cf 93       	push	r28
-     a5a:	cd b7       	in	r28, 0x3d	; 61
-     a5c:	de b7       	in	r29, 0x3e	; 62
+     232:	df 93       	push	r29
+     234:	cf 93       	push	r28
+     236:	cd b7       	in	r28, 0x3d	; 61
+     238:	de b7       	in	r29, 0x3e	; 62
     //moet worden vervangen met if. anders blijft de code hier hangen. als het aankomt blijft het toch in UDR0 staan totdat het wordt uitgelezen.
     loop_until_bit_is_set(UCSR0A, RXC0);
-     a5e:	e0 ec       	ldi	r30, 0xC0	; 192
-     a60:	f0 e0       	ldi	r31, 0x00	; 0
-     a62:	80 81       	ld	r24, Z
-     a64:	88 23       	and	r24, r24
-     a66:	dc f7       	brge	.-10     	; 0xa5e <recieve_Byte+0x8>
+     23a:	e0 ec       	ldi	r30, 0xC0	; 192
+     23c:	f0 e0       	ldi	r31, 0x00	; 0
+     23e:	80 81       	ld	r24, Z
+     240:	88 23       	and	r24, r24
+     242:	dc f7       	brge	.-10     	; 0x23a <recieve_Byte+0x8>
     {
      return UDR0;
-     a68:	e6 ec       	ldi	r30, 0xC6	; 198
-     a6a:	f0 e0       	ldi	r31, 0x00	; 0
-     a6c:	80 81       	ld	r24, Z
+     244:	e6 ec       	ldi	r30, 0xC6	; 198
+     246:	f0 e0       	ldi	r31, 0x00	; 0
+     248:	80 81       	ld	r24, Z
     }
     /*else
     {
         return -1;
     }*/
 }
-     a6e:	cf 91       	pop	r28
-     a70:	df 91       	pop	r29
-     a72:	08 95       	ret
+     24a:	cf 91       	pop	r28
+     24c:	df 91       	pop	r29
+     24e:	08 95       	ret
 
-00000a74 <transmit_byte>:
+00000250 <transmit_byte>:
 
 void transmit_byte(uint8_t byte)
 {
-     a74:	df 93       	push	r29
-     a76:	cf 93       	push	r28
-     a78:	0f 92       	push	r0
-     a7a:	cd b7       	in	r28, 0x3d	; 61
-     a7c:	de b7       	in	r29, 0x3e	; 62
-     a7e:	89 83       	std	Y+1, r24	; 0x01
+     250:	df 93       	push	r29
+     252:	cf 93       	push	r28
+     254:	0f 92       	push	r0
+     256:	cd b7       	in	r28, 0x3d	; 61
+     258:	de b7       	in	r29, 0x3e	; 62
+     25a:	89 83       	std	Y+1, r24	; 0x01
     //vervangen met if
     loop_until_bit_is_set(UCSR0A, UDRE0);
-     a80:	e0 ec       	ldi	r30, 0xC0	; 192
-     a82:	f0 e0       	ldi	r31, 0x00	; 0
-     a84:	80 81       	ld	r24, Z
-     a86:	88 2f       	mov	r24, r24
-     a88:	90 e0       	ldi	r25, 0x00	; 0
-     a8a:	80 72       	andi	r24, 0x20	; 32
-     a8c:	90 70       	andi	r25, 0x00	; 0
-     a8e:	00 97       	sbiw	r24, 0x00	; 0
-     a90:	b9 f3       	breq	.-18     	; 0xa80 <transmit_byte+0xc>
+     25c:	e0 ec       	ldi	r30, 0xC0	; 192
+     25e:	f0 e0       	ldi	r31, 0x00	; 0
+     260:	80 81       	ld	r24, Z
+     262:	88 2f       	mov	r24, r24
+     264:	90 e0       	ldi	r25, 0x00	; 0
+     266:	80 72       	andi	r24, 0x20	; 32
+     268:	90 70       	andi	r25, 0x00	; 0
+     26a:	00 97       	sbiw	r24, 0x00	; 0
+     26c:	b9 f3       	breq	.-18     	; 0x25c <transmit_byte+0xc>
     UDR0 = byte;
-     a92:	e6 ec       	ldi	r30, 0xC6	; 198
-     a94:	f0 e0       	ldi	r31, 0x00	; 0
-     a96:	89 81       	ldd	r24, Y+1	; 0x01
-     a98:	80 83       	st	Z, r24
+     26e:	e6 ec       	ldi	r30, 0xC6	; 198
+     270:	f0 e0       	ldi	r31, 0x00	; 0
+     272:	89 81       	ldd	r24, Y+1	; 0x01
+     274:	80 83       	st	Z, r24
 
 }
-     a9a:	0f 90       	pop	r0
-     a9c:	cf 91       	pop	r28
-     a9e:	df 91       	pop	r29
-     aa0:	08 95       	ret
+     276:	0f 90       	pop	r0
+     278:	cf 91       	pop	r28
+     27a:	df 91       	pop	r29
+     27c:	08 95       	ret
 
-00000aa2 <print_byte>:
+0000027e <print_byte>:
 
 void print_byte(uint32_t byte)
 {
-     aa2:	df 93       	push	r29
-     aa4:	cf 93       	push	r28
-     aa6:	00 d0       	rcall	.+0      	; 0xaa8 <print_byte+0x6>
-     aa8:	0f 92       	push	r0
-     aaa:	cd b7       	in	r28, 0x3d	; 61
-     aac:	de b7       	in	r29, 0x3e	; 62
-     aae:	69 83       	std	Y+1, r22	; 0x01
-     ab0:	7a 83       	std	Y+2, r23	; 0x02
-     ab2:	8b 83       	std	Y+3, r24	; 0x03
-     ab4:	9c 83       	std	Y+4, r25	; 0x04
+     27e:	df 93       	push	r29
+     280:	cf 93       	push	r28
+     282:	00 d0       	rcall	.+0      	; 0x284 <print_byte+0x6>
+     284:	0f 92       	push	r0
+     286:	cd b7       	in	r28, 0x3d	; 61
+     288:	de b7       	in	r29, 0x3e	; 62
+     28a:	69 83       	std	Y+1, r22	; 0x01
+     28c:	7a 83       	std	Y+2, r23	; 0x02
+     28e:	8b 83       	std	Y+3, r24	; 0x03
+     290:	9c 83       	std	Y+4, r25	; 0x04
     //werkt niet zoals het hoort. volgorde verkeert?
     transmit_byte((byte/1000)%10);
-     ab6:	89 81       	ldd	r24, Y+1	; 0x01
-     ab8:	9a 81       	ldd	r25, Y+2	; 0x02
-     aba:	ab 81       	ldd	r26, Y+3	; 0x03
-     abc:	bc 81       	ldd	r27, Y+4	; 0x04
-     abe:	28 ee       	ldi	r18, 0xE8	; 232
-     ac0:	33 e0       	ldi	r19, 0x03	; 3
-     ac2:	40 e0       	ldi	r20, 0x00	; 0
-     ac4:	50 e0       	ldi	r21, 0x00	; 0
-     ac6:	bc 01       	movw	r22, r24
-     ac8:	cd 01       	movw	r24, r26
-     aca:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     ace:	da 01       	movw	r26, r20
-     ad0:	c9 01       	movw	r24, r18
-     ad2:	2a e0       	ldi	r18, 0x0A	; 10
-     ad4:	30 e0       	ldi	r19, 0x00	; 0
-     ad6:	40 e0       	ldi	r20, 0x00	; 0
-     ad8:	50 e0       	ldi	r21, 0x00	; 0
-     ada:	bc 01       	movw	r22, r24
-     adc:	cd 01       	movw	r24, r26
-     ade:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     ae2:	dc 01       	movw	r26, r24
-     ae4:	cb 01       	movw	r24, r22
-     ae6:	0e 94 3a 05 	call	0xa74	; 0xa74 <transmit_byte>
+     292:	89 81       	ldd	r24, Y+1	; 0x01
+     294:	9a 81       	ldd	r25, Y+2	; 0x02
+     296:	ab 81       	ldd	r26, Y+3	; 0x03
+     298:	bc 81       	ldd	r27, Y+4	; 0x04
+     29a:	28 ee       	ldi	r18, 0xE8	; 232
+     29c:	33 e0       	ldi	r19, 0x03	; 3
+     29e:	40 e0       	ldi	r20, 0x00	; 0
+     2a0:	50 e0       	ldi	r21, 0x00	; 0
+     2a2:	bc 01       	movw	r22, r24
+     2a4:	cd 01       	movw	r24, r26
+     2a6:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     2aa:	da 01       	movw	r26, r20
+     2ac:	c9 01       	movw	r24, r18
+     2ae:	2a e0       	ldi	r18, 0x0A	; 10
+     2b0:	30 e0       	ldi	r19, 0x00	; 0
+     2b2:	40 e0       	ldi	r20, 0x00	; 0
+     2b4:	50 e0       	ldi	r21, 0x00	; 0
+     2b6:	bc 01       	movw	r22, r24
+     2b8:	cd 01       	movw	r24, r26
+     2ba:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     2be:	dc 01       	movw	r26, r24
+     2c0:	cb 01       	movw	r24, r22
+     2c2:	0e 94 28 01 	call	0x250	; 0x250 <transmit_byte>
     transmit_byte((byte/100)%10);
-     aea:	89 81       	ldd	r24, Y+1	; 0x01
-     aec:	9a 81       	ldd	r25, Y+2	; 0x02
-     aee:	ab 81       	ldd	r26, Y+3	; 0x03
-     af0:	bc 81       	ldd	r27, Y+4	; 0x04
-     af2:	24 e6       	ldi	r18, 0x64	; 100
-     af4:	30 e0       	ldi	r19, 0x00	; 0
-     af6:	40 e0       	ldi	r20, 0x00	; 0
-     af8:	50 e0       	ldi	r21, 0x00	; 0
-     afa:	bc 01       	movw	r22, r24
-     afc:	cd 01       	movw	r24, r26
-     afe:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     b02:	da 01       	movw	r26, r20
-     b04:	c9 01       	movw	r24, r18
-     b06:	2a e0       	ldi	r18, 0x0A	; 10
-     b08:	30 e0       	ldi	r19, 0x00	; 0
-     b0a:	40 e0       	ldi	r20, 0x00	; 0
-     b0c:	50 e0       	ldi	r21, 0x00	; 0
-     b0e:	bc 01       	movw	r22, r24
-     b10:	cd 01       	movw	r24, r26
-     b12:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     b16:	dc 01       	movw	r26, r24
-     b18:	cb 01       	movw	r24, r22
-     b1a:	0e 94 3a 05 	call	0xa74	; 0xa74 <transmit_byte>
+     2c6:	89 81       	ldd	r24, Y+1	; 0x01
+     2c8:	9a 81       	ldd	r25, Y+2	; 0x02
+     2ca:	ab 81       	ldd	r26, Y+3	; 0x03
+     2cc:	bc 81       	ldd	r27, Y+4	; 0x04
+     2ce:	24 e6       	ldi	r18, 0x64	; 100
+     2d0:	30 e0       	ldi	r19, 0x00	; 0
+     2d2:	40 e0       	ldi	r20, 0x00	; 0
+     2d4:	50 e0       	ldi	r21, 0x00	; 0
+     2d6:	bc 01       	movw	r22, r24
+     2d8:	cd 01       	movw	r24, r26
+     2da:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     2de:	da 01       	movw	r26, r20
+     2e0:	c9 01       	movw	r24, r18
+     2e2:	2a e0       	ldi	r18, 0x0A	; 10
+     2e4:	30 e0       	ldi	r19, 0x00	; 0
+     2e6:	40 e0       	ldi	r20, 0x00	; 0
+     2e8:	50 e0       	ldi	r21, 0x00	; 0
+     2ea:	bc 01       	movw	r22, r24
+     2ec:	cd 01       	movw	r24, r26
+     2ee:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     2f2:	dc 01       	movw	r26, r24
+     2f4:	cb 01       	movw	r24, r22
+     2f6:	0e 94 28 01 	call	0x250	; 0x250 <transmit_byte>
     transmit_byte((byte/10)%10);
-     b1e:	89 81       	ldd	r24, Y+1	; 0x01
-     b20:	9a 81       	ldd	r25, Y+2	; 0x02
-     b22:	ab 81       	ldd	r26, Y+3	; 0x03
-     b24:	bc 81       	ldd	r27, Y+4	; 0x04
-     b26:	2a e0       	ldi	r18, 0x0A	; 10
-     b28:	30 e0       	ldi	r19, 0x00	; 0
-     b2a:	40 e0       	ldi	r20, 0x00	; 0
-     b2c:	50 e0       	ldi	r21, 0x00	; 0
-     b2e:	bc 01       	movw	r22, r24
-     b30:	cd 01       	movw	r24, r26
-     b32:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     b36:	da 01       	movw	r26, r20
-     b38:	c9 01       	movw	r24, r18
-     b3a:	2a e0       	ldi	r18, 0x0A	; 10
-     b3c:	30 e0       	ldi	r19, 0x00	; 0
-     b3e:	40 e0       	ldi	r20, 0x00	; 0
-     b40:	50 e0       	ldi	r21, 0x00	; 0
-     b42:	bc 01       	movw	r22, r24
-     b44:	cd 01       	movw	r24, r26
-     b46:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     b4a:	dc 01       	movw	r26, r24
-     b4c:	cb 01       	movw	r24, r22
-     b4e:	0e 94 3a 05 	call	0xa74	; 0xa74 <transmit_byte>
+     2fa:	89 81       	ldd	r24, Y+1	; 0x01
+     2fc:	9a 81       	ldd	r25, Y+2	; 0x02
+     2fe:	ab 81       	ldd	r26, Y+3	; 0x03
+     300:	bc 81       	ldd	r27, Y+4	; 0x04
+     302:	2a e0       	ldi	r18, 0x0A	; 10
+     304:	30 e0       	ldi	r19, 0x00	; 0
+     306:	40 e0       	ldi	r20, 0x00	; 0
+     308:	50 e0       	ldi	r21, 0x00	; 0
+     30a:	bc 01       	movw	r22, r24
+     30c:	cd 01       	movw	r24, r26
+     30e:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     312:	da 01       	movw	r26, r20
+     314:	c9 01       	movw	r24, r18
+     316:	2a e0       	ldi	r18, 0x0A	; 10
+     318:	30 e0       	ldi	r19, 0x00	; 0
+     31a:	40 e0       	ldi	r20, 0x00	; 0
+     31c:	50 e0       	ldi	r21, 0x00	; 0
+     31e:	bc 01       	movw	r22, r24
+     320:	cd 01       	movw	r24, r26
+     322:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     326:	dc 01       	movw	r26, r24
+     328:	cb 01       	movw	r24, r22
+     32a:	0e 94 28 01 	call	0x250	; 0x250 <transmit_byte>
     transmit_byte((byte%10));
-     b52:	89 81       	ldd	r24, Y+1	; 0x01
-     b54:	9a 81       	ldd	r25, Y+2	; 0x02
-     b56:	ab 81       	ldd	r26, Y+3	; 0x03
-     b58:	bc 81       	ldd	r27, Y+4	; 0x04
-     b5a:	2a e0       	ldi	r18, 0x0A	; 10
-     b5c:	30 e0       	ldi	r19, 0x00	; 0
-     b5e:	40 e0       	ldi	r20, 0x00	; 0
-     b60:	50 e0       	ldi	r21, 0x00	; 0
-     b62:	bc 01       	movw	r22, r24
-     b64:	cd 01       	movw	r24, r26
-     b66:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
-     b6a:	dc 01       	movw	r26, r24
-     b6c:	cb 01       	movw	r24, r22
-     b6e:	0e 94 3a 05 	call	0xa74	; 0xa74 <transmit_byte>
+     32e:	89 81       	ldd	r24, Y+1	; 0x01
+     330:	9a 81       	ldd	r25, Y+2	; 0x02
+     332:	ab 81       	ldd	r26, Y+3	; 0x03
+     334:	bc 81       	ldd	r27, Y+4	; 0x04
+     336:	2a e0       	ldi	r18, 0x0A	; 10
+     338:	30 e0       	ldi	r19, 0x00	; 0
+     33a:	40 e0       	ldi	r20, 0x00	; 0
+     33c:	50 e0       	ldi	r21, 0x00	; 0
+     33e:	bc 01       	movw	r22, r24
+     340:	cd 01       	movw	r24, r26
+     342:	0e 94 a6 0c 	call	0x194c	; 0x194c <__udivmodsi4>
+     346:	dc 01       	movw	r26, r24
+     348:	cb 01       	movw	r24, r22
+     34a:	0e 94 28 01 	call	0x250	; 0x250 <transmit_byte>
     transmit_byte(0xA5);
-     b72:	85 ea       	ldi	r24, 0xA5	; 165
-     b74:	0e 94 3a 05 	call	0xa74	; 0xa74 <transmit_byte>
+     34e:	85 ea       	ldi	r24, 0xA5	; 165
+     350:	0e 94 28 01 	call	0x250	; 0x250 <transmit_byte>
 }
-     b78:	0f 90       	pop	r0
-     b7a:	0f 90       	pop	r0
-     b7c:	0f 90       	pop	r0
-     b7e:	0f 90       	pop	r0
-     b80:	cf 91       	pop	r28
-     b82:	df 91       	pop	r29
-     b84:	08 95       	ret
+     354:	0f 90       	pop	r0
+     356:	0f 90       	pop	r0
+     358:	0f 90       	pop	r0
+     35a:	0f 90       	pop	r0
+     35c:	cf 91       	pop	r28
+     35e:	df 91       	pop	r29
+     360:	08 95       	ret
 
-00000b86 <recieve_string>:
+00000362 <recieve_string>:
 
 
 
 void recieve_string(char code[])
 {
-     b86:	df 93       	push	r29
-     b88:	cf 93       	push	r28
-     b8a:	00 d0       	rcall	.+0      	; 0xb8c <recieve_string+0x6>
-     b8c:	0f 92       	push	r0
-     b8e:	0f 92       	push	r0
-     b90:	cd b7       	in	r28, 0x3d	; 61
-     b92:	de b7       	in	r29, 0x3e	; 62
-     b94:	9d 83       	std	Y+5, r25	; 0x05
-     b96:	8c 83       	std	Y+4, r24	; 0x04
+     362:	df 93       	push	r29
+     364:	cf 93       	push	r28
+     366:	00 d0       	rcall	.+0      	; 0x368 <recieve_string+0x6>
+     368:	0f 92       	push	r0
+     36a:	0f 92       	push	r0
+     36c:	cd b7       	in	r28, 0x3d	; 61
+     36e:	de b7       	in	r29, 0x3e	; 62
+     370:	9d 83       	std	Y+5, r25	; 0x05
+     372:	8c 83       	std	Y+4, r24	; 0x04
     //code ontworpen voor een GPS module. dollar teken is begin van de string. kan wel gebruikt worden voor het onvangen van complexe instructies.
     char byte = recieve_Byte();
-     b98:	0e 94 2b 05 	call	0xa56	; 0xa56 <recieve_Byte>
-     b9c:	8b 83       	std	Y+3, r24	; 0x03
+     374:	0e 94 19 01 	call	0x232	; 0x232 <recieve_Byte>
+     378:	8b 83       	std	Y+3, r24	; 0x03
     if(byte == '$')
-     b9e:	8b 81       	ldd	r24, Y+3	; 0x03
-     ba0:	84 32       	cpi	r24, 0x24	; 36
-     ba2:	c9 f4       	brne	.+50     	; 0xbd6 <recieve_string+0x50>
+     37a:	8b 81       	ldd	r24, Y+3	; 0x03
+     37c:	84 32       	cpi	r24, 0x24	; 36
+     37e:	c9 f4       	brne	.+50     	; 0x3b2 <recieve_string+0x50>
     {
         int x = 1;
-     ba4:	81 e0       	ldi	r24, 0x01	; 1
-     ba6:	90 e0       	ldi	r25, 0x00	; 0
-     ba8:	9a 83       	std	Y+2, r25	; 0x02
-     baa:	89 83       	std	Y+1, r24	; 0x01
-     bac:	11 c0       	rjmp	.+34     	; 0xbd0 <recieve_string+0x4a>
+     380:	81 e0       	ldi	r24, 0x01	; 1
+     382:	90 e0       	ldi	r25, 0x00	; 0
+     384:	9a 83       	std	Y+2, r25	; 0x02
+     386:	89 83       	std	Y+1, r24	; 0x01
+     388:	11 c0       	rjmp	.+34     	; 0x3ac <recieve_string+0x4a>
         while(byte != '\n')
         {
             byte = recieve_Byte();
-     bae:	0e 94 2b 05 	call	0xa56	; 0xa56 <recieve_Byte>
-     bb2:	8b 83       	std	Y+3, r24	; 0x03
+     38a:	0e 94 19 01 	call	0x232	; 0x232 <recieve_Byte>
+     38e:	8b 83       	std	Y+3, r24	; 0x03
             code[x] = byte;
-     bb4:	29 81       	ldd	r18, Y+1	; 0x01
-     bb6:	3a 81       	ldd	r19, Y+2	; 0x02
-     bb8:	8c 81       	ldd	r24, Y+4	; 0x04
-     bba:	9d 81       	ldd	r25, Y+5	; 0x05
-     bbc:	fc 01       	movw	r30, r24
-     bbe:	e2 0f       	add	r30, r18
-     bc0:	f3 1f       	adc	r31, r19
-     bc2:	8b 81       	ldd	r24, Y+3	; 0x03
-     bc4:	80 83       	st	Z, r24
+     390:	29 81       	ldd	r18, Y+1	; 0x01
+     392:	3a 81       	ldd	r19, Y+2	; 0x02
+     394:	8c 81       	ldd	r24, Y+4	; 0x04
+     396:	9d 81       	ldd	r25, Y+5	; 0x05
+     398:	fc 01       	movw	r30, r24
+     39a:	e2 0f       	add	r30, r18
+     39c:	f3 1f       	adc	r31, r19
+     39e:	8b 81       	ldd	r24, Y+3	; 0x03
+     3a0:	80 83       	st	Z, r24
             x++;
-     bc6:	89 81       	ldd	r24, Y+1	; 0x01
-     bc8:	9a 81       	ldd	r25, Y+2	; 0x02
-     bca:	01 96       	adiw	r24, 0x01	; 1
-     bcc:	9a 83       	std	Y+2, r25	; 0x02
-     bce:	89 83       	std	Y+1, r24	; 0x01
+     3a2:	89 81       	ldd	r24, Y+1	; 0x01
+     3a4:	9a 81       	ldd	r25, Y+2	; 0x02
+     3a6:	01 96       	adiw	r24, 0x01	; 1
+     3a8:	9a 83       	std	Y+2, r25	; 0x02
+     3aa:	89 83       	std	Y+1, r24	; 0x01
     //code ontworpen voor een GPS module. dollar teken is begin van de string. kan wel gebruikt worden voor het onvangen van complexe instructies.
     char byte = recieve_Byte();
     if(byte == '$')
     {
         int x = 1;
         while(byte != '\n')
-     bd0:	8b 81       	ldd	r24, Y+3	; 0x03
-     bd2:	8a 30       	cpi	r24, 0x0A	; 10
-     bd4:	61 f7       	brne	.-40     	; 0xbae <recieve_string+0x28>
+     3ac:	8b 81       	ldd	r24, Y+3	; 0x03
+     3ae:	8a 30       	cpi	r24, 0x0A	; 10
+     3b0:	61 f7       	brne	.-40     	; 0x38a <recieve_string+0x28>
             byte = recieve_Byte();
             code[x] = byte;
             x++;
         }
     }
 }
-     bd6:	0f 90       	pop	r0
-     bd8:	0f 90       	pop	r0
-     bda:	0f 90       	pop	r0
-     bdc:	0f 90       	pop	r0
-     bde:	0f 90       	pop	r0
+     3b2:	0f 90       	pop	r0
+     3b4:	0f 90       	pop	r0
+     3b6:	0f 90       	pop	r0
+     3b8:	0f 90       	pop	r0
+     3ba:	0f 90       	pop	r0
+     3bc:	cf 91       	pop	r28
+     3be:	df 91       	pop	r29
+     3c0:	08 95       	ret
+
+000003c2 <construct_stepper>:
+#include <avr/interrupt.h>
+
+#include "stepper.h"
+
+void construct_stepper(volatile struct stepper *stepper, uint8_t step_pin, uint8_t dir_pin)
+{
+     3c2:	df 93       	push	r29
+     3c4:	cf 93       	push	r28
+     3c6:	00 d0       	rcall	.+0      	; 0x3c8 <construct_stepper+0x6>
+     3c8:	0f 92       	push	r0
+     3ca:	cd b7       	in	r28, 0x3d	; 61
+     3cc:	de b7       	in	r29, 0x3e	; 62
+     3ce:	9a 83       	std	Y+2, r25	; 0x02
+     3d0:	89 83       	std	Y+1, r24	; 0x01
+     3d2:	6b 83       	std	Y+3, r22	; 0x03
+     3d4:	4c 83       	std	Y+4, r20	; 0x04
+    stepper->last_step = ms;
+     3d6:	80 91 1c 03 	lds	r24, 0x031C
+     3da:	90 91 1d 03 	lds	r25, 0x031D
+     3de:	a0 91 1e 03 	lds	r26, 0x031E
+     3e2:	b0 91 1f 03 	lds	r27, 0x031F
+     3e6:	e9 81       	ldd	r30, Y+1	; 0x01
+     3e8:	fa 81       	ldd	r31, Y+2	; 0x02
+     3ea:	80 83       	st	Z, r24
+     3ec:	91 83       	std	Z+1, r25	; 0x01
+     3ee:	a2 83       	std	Z+2, r26	; 0x02
+     3f0:	b3 83       	std	Z+3, r27	; 0x03
+    stepper->time_profile = 1;
+     3f2:	e9 81       	ldd	r30, Y+1	; 0x01
+     3f4:	fa 81       	ldd	r31, Y+2	; 0x02
+     3f6:	81 e0       	ldi	r24, 0x01	; 1
+     3f8:	84 83       	std	Z+4, r24	; 0x04
+    stepper->steps = 0;
+     3fa:	e9 81       	ldd	r30, Y+1	; 0x01
+     3fc:	fa 81       	ldd	r31, Y+2	; 0x02
+     3fe:	11 86       	std	Z+9, r1	; 0x09
+     400:	10 86       	std	Z+8, r1	; 0x08
+    stepper->step_pin = step_pin;
+     402:	e9 81       	ldd	r30, Y+1	; 0x01
+     404:	fa 81       	ldd	r31, Y+2	; 0x02
+     406:	8b 81       	ldd	r24, Y+3	; 0x03
+     408:	86 83       	std	Z+6, r24	; 0x06
+    stepper->dir_pin = dir_pin;
+     40a:	e9 81       	ldd	r30, Y+1	; 0x01
+     40c:	fa 81       	ldd	r31, Y+2	; 0x02
+     40e:	8c 81       	ldd	r24, Y+4	; 0x04
+     410:	87 83       	std	Z+7, r24	; 0x07
+    stepper->direction = 0;
+     412:	e9 81       	ldd	r30, Y+1	; 0x01
+     414:	fa 81       	ldd	r31, Y+2	; 0x02
+     416:	15 82       	std	Z+5, r1	; 0x05
+}
+     418:	0f 90       	pop	r0
+     41a:	0f 90       	pop	r0
+     41c:	0f 90       	pop	r0
+     41e:	0f 90       	pop	r0
+     420:	cf 91       	pop	r28
+     422:	df 91       	pop	r29
+     424:	08 95       	ret
+
+00000426 <initialize_steppers>:
+
+void initialize_steppers()
+{
+     426:	df 93       	push	r29
+     428:	cf 93       	push	r28
+     42a:	0f 92       	push	r0
+     42c:	cd b7       	in	r28, 0x3d	; 61
+     42e:	de b7       	in	r29, 0x3e	; 62
+    stepper_DDR |= 0xFF;//init all pins in bank C
+     430:	e7 e0       	ldi	r30, 0x07	; 7
+     432:	f1 e0       	ldi	r31, 0x01	; 1
+     434:	80 81       	ld	r24, Z
+     436:	e7 e0       	ldi	r30, 0x07	; 7
+     438:	f1 e0       	ldi	r31, 0x01	; 1
+     43a:	8f ef       	ldi	r24, 0xFF	; 255
+     43c:	80 83       	st	Z, r24
+}
+     43e:	0f 90       	pop	r0
+     440:	cf 91       	pop	r28
+     442:	df 91       	pop	r29
+     444:	08 95       	ret
+
+00000446 <set_dir>:
+
+void set_dir(volatile struct stepper *stepper)
+{
+     446:	df 93       	push	r29
+     448:	cf 93       	push	r28
+     44a:	00 d0       	rcall	.+0      	; 0x44c <set_dir+0x6>
+     44c:	0f 92       	push	r0
+     44e:	cd b7       	in	r28, 0x3d	; 61
+     450:	de b7       	in	r29, 0x3e	; 62
+     452:	9a 83       	std	Y+2, r25	; 0x02
+     454:	89 83       	std	Y+1, r24	; 0x01
+    switch(stepper->direction)
+     456:	e9 81       	ldd	r30, Y+1	; 0x01
+     458:	fa 81       	ldd	r31, Y+2	; 0x02
+     45a:	85 81       	ldd	r24, Z+5	; 0x05
+     45c:	28 2f       	mov	r18, r24
+     45e:	30 e0       	ldi	r19, 0x00	; 0
+     460:	3c 83       	std	Y+4, r19	; 0x04
+     462:	2b 83       	std	Y+3, r18	; 0x03
+     464:	8b 81       	ldd	r24, Y+3	; 0x03
+     466:	9c 81       	ldd	r25, Y+4	; 0x04
+     468:	81 30       	cpi	r24, 0x01	; 1
+     46a:	91 05       	cpc	r25, r1
+     46c:	31 f0       	breq	.+12     	; 0x47a <set_dir+0x34>
+     46e:	2b 81       	ldd	r18, Y+3	; 0x03
+     470:	3c 81       	ldd	r19, Y+4	; 0x04
+     472:	22 30       	cpi	r18, 0x02	; 2
+     474:	31 05       	cpc	r19, r1
+     476:	b9 f0       	breq	.+46     	; 0x4a6 <set_dir+0x60>
+     478:	2c c0       	rjmp	.+88     	; 0x4d2 <set_dir+0x8c>
+    {
+    case forward:
+        stepper_port |= (1<<stepper->dir_pin);
+     47a:	a8 e0       	ldi	r26, 0x08	; 8
+     47c:	b1 e0       	ldi	r27, 0x01	; 1
+     47e:	e8 e0       	ldi	r30, 0x08	; 8
+     480:	f1 e0       	ldi	r31, 0x01	; 1
+     482:	80 81       	ld	r24, Z
+     484:	48 2f       	mov	r20, r24
+     486:	e9 81       	ldd	r30, Y+1	; 0x01
+     488:	fa 81       	ldd	r31, Y+2	; 0x02
+     48a:	87 81       	ldd	r24, Z+7	; 0x07
+     48c:	28 2f       	mov	r18, r24
+     48e:	30 e0       	ldi	r19, 0x00	; 0
+     490:	81 e0       	ldi	r24, 0x01	; 1
+     492:	90 e0       	ldi	r25, 0x00	; 0
+     494:	02 2e       	mov	r0, r18
+     496:	02 c0       	rjmp	.+4      	; 0x49c <set_dir+0x56>
+     498:	88 0f       	add	r24, r24
+     49a:	99 1f       	adc	r25, r25
+     49c:	0a 94       	dec	r0
+     49e:	e2 f7       	brpl	.-8      	; 0x498 <set_dir+0x52>
+     4a0:	84 2b       	or	r24, r20
+     4a2:	8c 93       	st	X, r24
+     4a4:	16 c0       	rjmp	.+44     	; 0x4d2 <set_dir+0x8c>
+        break;
+    case backward:
+        stepper_port &= ~(1<<stepper->dir_pin);
+     4a6:	a8 e0       	ldi	r26, 0x08	; 8
+     4a8:	b1 e0       	ldi	r27, 0x01	; 1
+     4aa:	e8 e0       	ldi	r30, 0x08	; 8
+     4ac:	f1 e0       	ldi	r31, 0x01	; 1
+     4ae:	80 81       	ld	r24, Z
+     4b0:	48 2f       	mov	r20, r24
+     4b2:	e9 81       	ldd	r30, Y+1	; 0x01
+     4b4:	fa 81       	ldd	r31, Y+2	; 0x02
+     4b6:	87 81       	ldd	r24, Z+7	; 0x07
+     4b8:	28 2f       	mov	r18, r24
+     4ba:	30 e0       	ldi	r19, 0x00	; 0
+     4bc:	81 e0       	ldi	r24, 0x01	; 1
+     4be:	90 e0       	ldi	r25, 0x00	; 0
+     4c0:	02 2e       	mov	r0, r18
+     4c2:	02 c0       	rjmp	.+4      	; 0x4c8 <set_dir+0x82>
+     4c4:	88 0f       	add	r24, r24
+     4c6:	99 1f       	adc	r25, r25
+     4c8:	0a 94       	dec	r0
+     4ca:	e2 f7       	brpl	.-8      	; 0x4c4 <set_dir+0x7e>
+     4cc:	80 95       	com	r24
+     4ce:	84 23       	and	r24, r20
+     4d0:	8c 93       	st	X, r24
+        break;
+    default:
+        break;
+    }
+}
+     4d2:	0f 90       	pop	r0
+     4d4:	0f 90       	pop	r0
+     4d6:	0f 90       	pop	r0
+     4d8:	0f 90       	pop	r0
+     4da:	cf 91       	pop	r28
+     4dc:	df 91       	pop	r29
+     4de:	08 95       	ret
+
+000004e0 <step>:
+
+void static step(volatile struct stepper stepper)
+{
+     4e0:	0f 93       	push	r16
+     4e2:	1f 93       	push	r17
+     4e4:	df 93       	push	r29
+     4e6:	cf 93       	push	r28
+     4e8:	cd b7       	in	r28, 0x3d	; 61
+     4ea:	de b7       	in	r29, 0x3e	; 62
+     4ec:	ea 97       	sbiw	r28, 0x3a	; 58
+     4ee:	0f b6       	in	r0, 0x3f	; 63
+     4f0:	f8 94       	cli
+     4f2:	de bf       	out	0x3e, r29	; 62
+     4f4:	0f be       	out	0x3f, r0	; 63
+     4f6:	cd bf       	out	0x3d, r28	; 61
+     4f8:	09 ab       	std	Y+49, r16	; 0x31
+     4fa:	1a ab       	std	Y+50, r17	; 0x32
+     4fc:	2b ab       	std	Y+51, r18	; 0x33
+     4fe:	3c ab       	std	Y+52, r19	; 0x34
+     500:	4d ab       	std	Y+53, r20	; 0x35
+     502:	5e ab       	std	Y+54, r21	; 0x36
+     504:	6f ab       	std	Y+55, r22	; 0x37
+     506:	78 af       	std	Y+56, r23	; 0x38
+     508:	89 af       	std	Y+57, r24	; 0x39
+     50a:	9a af       	std	Y+58, r25	; 0x3a
+
+            stepper_port |= (1<<stepper.step_pin);
+     50c:	a8 e0       	ldi	r26, 0x08	; 8
+     50e:	b1 e0       	ldi	r27, 0x01	; 1
+     510:	e8 e0       	ldi	r30, 0x08	; 8
+     512:	f1 e0       	ldi	r31, 0x01	; 1
+     514:	80 81       	ld	r24, Z
+     516:	48 2f       	mov	r20, r24
+     518:	8f a9       	ldd	r24, Y+55	; 0x37
+     51a:	28 2f       	mov	r18, r24
+     51c:	30 e0       	ldi	r19, 0x00	; 0
+     51e:	81 e0       	ldi	r24, 0x01	; 1
+     520:	90 e0       	ldi	r25, 0x00	; 0
+     522:	02 c0       	rjmp	.+4      	; 0x528 <step+0x48>
+     524:	88 0f       	add	r24, r24
+     526:	99 1f       	adc	r25, r25
+     528:	2a 95       	dec	r18
+     52a:	e2 f7       	brpl	.-8      	; 0x524 <step+0x44>
+     52c:	84 2b       	or	r24, r20
+     52e:	8c 93       	st	X, r24
+     530:	80 e0       	ldi	r24, 0x00	; 0
+     532:	90 e0       	ldi	r25, 0x00	; 0
+     534:	a0 e0       	ldi	r26, 0x00	; 0
+     536:	b0 e4       	ldi	r27, 0x40	; 64
+     538:	8d a7       	std	Y+45, r24	; 0x2d
+     53a:	9e a7       	std	Y+46, r25	; 0x2e
+     53c:	af a7       	std	Y+47, r26	; 0x2f
+     53e:	b8 ab       	std	Y+48, r27	; 0x30
+ */
+void
+_delay_us(double __us)
+{
+	uint8_t __ticks;
+	double __tmp = ((F_CPU) / 3e6) * __us;
+     540:	6d a5       	ldd	r22, Y+45	; 0x2d
+     542:	7e a5       	ldd	r23, Y+46	; 0x2e
+     544:	8f a5       	ldd	r24, Y+47	; 0x2f
+     546:	98 a9       	ldd	r25, Y+48	; 0x30
+     548:	2b ea       	ldi	r18, 0xAB	; 171
+     54a:	3a ea       	ldi	r19, 0xAA	; 170
+     54c:	4a ea       	ldi	r20, 0xAA	; 170
+     54e:	50 e4       	ldi	r21, 0x40	; 64
+     550:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     554:	dc 01       	movw	r26, r24
+     556:	cb 01       	movw	r24, r22
+     558:	89 a7       	std	Y+41, r24	; 0x29
+     55a:	9a a7       	std	Y+42, r25	; 0x2a
+     55c:	ab a7       	std	Y+43, r26	; 0x2b
+     55e:	bc a7       	std	Y+44, r27	; 0x2c
+	if (__tmp < 1.0)
+     560:	69 a5       	ldd	r22, Y+41	; 0x29
+     562:	7a a5       	ldd	r23, Y+42	; 0x2a
+     564:	8b a5       	ldd	r24, Y+43	; 0x2b
+     566:	9c a5       	ldd	r25, Y+44	; 0x2c
+     568:	20 e0       	ldi	r18, 0x00	; 0
+     56a:	30 e0       	ldi	r19, 0x00	; 0
+     56c:	40 e8       	ldi	r20, 0x80	; 128
+     56e:	5f e3       	ldi	r21, 0x3F	; 63
+     570:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
+     574:	88 23       	and	r24, r24
+     576:	1c f4       	brge	.+6      	; 0x57e <step+0x9e>
+		__ticks = 1;
+     578:	81 e0       	ldi	r24, 0x01	; 1
+     57a:	88 a7       	std	Y+40, r24	; 0x28
+     57c:	91 c0       	rjmp	.+290    	; 0x6a0 <step+0x1c0>
+	else if (__tmp > 255)
+     57e:	69 a5       	ldd	r22, Y+41	; 0x29
+     580:	7a a5       	ldd	r23, Y+42	; 0x2a
+     582:	8b a5       	ldd	r24, Y+43	; 0x2b
+     584:	9c a5       	ldd	r25, Y+44	; 0x2c
+     586:	20 e0       	ldi	r18, 0x00	; 0
+     588:	30 e0       	ldi	r19, 0x00	; 0
+     58a:	4f e7       	ldi	r20, 0x7F	; 127
+     58c:	53 e4       	ldi	r21, 0x43	; 67
+     58e:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
+     592:	18 16       	cp	r1, r24
+     594:	0c f0       	brlt	.+2      	; 0x598 <step+0xb8>
+     596:	7b c0       	rjmp	.+246    	; 0x68e <step+0x1ae>
+	{
+		_delay_ms(__us / 1000.0);
+     598:	6d a5       	ldd	r22, Y+45	; 0x2d
+     59a:	7e a5       	ldd	r23, Y+46	; 0x2e
+     59c:	8f a5       	ldd	r24, Y+47	; 0x2f
+     59e:	98 a9       	ldd	r25, Y+48	; 0x30
+     5a0:	20 e0       	ldi	r18, 0x00	; 0
+     5a2:	30 e0       	ldi	r19, 0x00	; 0
+     5a4:	4a e7       	ldi	r20, 0x7A	; 122
+     5a6:	54 e4       	ldi	r21, 0x44	; 68
+     5a8:	0e 94 c3 08 	call	0x1186	; 0x1186 <__divsf3>
+     5ac:	dc 01       	movw	r26, r24
+     5ae:	cb 01       	movw	r24, r22
+     5b0:	8c a3       	std	Y+36, r24	; 0x24
+     5b2:	9d a3       	std	Y+37, r25	; 0x25
+     5b4:	ae a3       	std	Y+38, r26	; 0x26
+     5b6:	bf a3       	std	Y+39, r27	; 0x27
+ */
+void
+_delay_ms(double __ms)
+{
+	uint16_t __ticks;
+	double __tmp = ((F_CPU) / 4e3) * __ms;
+     5b8:	6c a1       	ldd	r22, Y+36	; 0x24
+     5ba:	7d a1       	ldd	r23, Y+37	; 0x25
+     5bc:	8e a1       	ldd	r24, Y+38	; 0x26
+     5be:	9f a1       	ldd	r25, Y+39	; 0x27
+     5c0:	20 e0       	ldi	r18, 0x00	; 0
+     5c2:	30 e0       	ldi	r19, 0x00	; 0
+     5c4:	4a e7       	ldi	r20, 0x7A	; 122
+     5c6:	55 e4       	ldi	r21, 0x45	; 69
+     5c8:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     5cc:	dc 01       	movw	r26, r24
+     5ce:	cb 01       	movw	r24, r22
+     5d0:	88 a3       	std	Y+32, r24	; 0x20
+     5d2:	99 a3       	std	Y+33, r25	; 0x21
+     5d4:	aa a3       	std	Y+34, r26	; 0x22
+     5d6:	bb a3       	std	Y+35, r27	; 0x23
+	if (__tmp < 1.0)
+     5d8:	68 a1       	ldd	r22, Y+32	; 0x20
+     5da:	79 a1       	ldd	r23, Y+33	; 0x21
+     5dc:	8a a1       	ldd	r24, Y+34	; 0x22
+     5de:	9b a1       	ldd	r25, Y+35	; 0x23
+     5e0:	20 e0       	ldi	r18, 0x00	; 0
+     5e2:	30 e0       	ldi	r19, 0x00	; 0
+     5e4:	40 e8       	ldi	r20, 0x80	; 128
+     5e6:	5f e3       	ldi	r21, 0x3F	; 63
+     5e8:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
+     5ec:	88 23       	and	r24, r24
+     5ee:	2c f4       	brge	.+10     	; 0x5fa <step+0x11a>
+		__ticks = 1;
+     5f0:	81 e0       	ldi	r24, 0x01	; 1
+     5f2:	90 e0       	ldi	r25, 0x00	; 0
+     5f4:	9f 8f       	std	Y+31, r25	; 0x1f
+     5f6:	8e 8f       	std	Y+30, r24	; 0x1e
+     5f8:	3f c0       	rjmp	.+126    	; 0x678 <step+0x198>
+	else if (__tmp > 65535)
+     5fa:	68 a1       	ldd	r22, Y+32	; 0x20
+     5fc:	79 a1       	ldd	r23, Y+33	; 0x21
+     5fe:	8a a1       	ldd	r24, Y+34	; 0x22
+     600:	9b a1       	ldd	r25, Y+35	; 0x23
+     602:	20 e0       	ldi	r18, 0x00	; 0
+     604:	3f ef       	ldi	r19, 0xFF	; 255
+     606:	4f e7       	ldi	r20, 0x7F	; 127
+     608:	57 e4       	ldi	r21, 0x47	; 71
+     60a:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
+     60e:	18 16       	cp	r1, r24
+     610:	4c f5       	brge	.+82     	; 0x664 <step+0x184>
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+     612:	6c a1       	ldd	r22, Y+36	; 0x24
+     614:	7d a1       	ldd	r23, Y+37	; 0x25
+     616:	8e a1       	ldd	r24, Y+38	; 0x26
+     618:	9f a1       	ldd	r25, Y+39	; 0x27
+     61a:	20 e0       	ldi	r18, 0x00	; 0
+     61c:	30 e0       	ldi	r19, 0x00	; 0
+     61e:	40 e2       	ldi	r20, 0x20	; 32
+     620:	51 e4       	ldi	r21, 0x41	; 65
+     622:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     626:	dc 01       	movw	r26, r24
+     628:	cb 01       	movw	r24, r22
+     62a:	bc 01       	movw	r22, r24
+     62c:	cd 01       	movw	r24, r26
+     62e:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
+     632:	dc 01       	movw	r26, r24
+     634:	cb 01       	movw	r24, r22
+     636:	9f 8f       	std	Y+31, r25	; 0x1f
+     638:	8e 8f       	std	Y+30, r24	; 0x1e
+     63a:	0f c0       	rjmp	.+30     	; 0x65a <step+0x17a>
+     63c:	80 e9       	ldi	r24, 0x90	; 144
+     63e:	91 e0       	ldi	r25, 0x01	; 1
+     640:	9d 8f       	std	Y+29, r25	; 0x1d
+     642:	8c 8f       	std	Y+28, r24	; 0x1c
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+     644:	8c 8d       	ldd	r24, Y+28	; 0x1c
+     646:	9d 8d       	ldd	r25, Y+29	; 0x1d
+     648:	01 97       	sbiw	r24, 0x01	; 1
+     64a:	f1 f7       	brne	.-4      	; 0x648 <step+0x168>
+     64c:	9d 8f       	std	Y+29, r25	; 0x1d
+     64e:	8c 8f       	std	Y+28, r24	; 0x1c
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+     650:	8e 8d       	ldd	r24, Y+30	; 0x1e
+     652:	9f 8d       	ldd	r25, Y+31	; 0x1f
+     654:	01 97       	sbiw	r24, 0x01	; 1
+     656:	9f 8f       	std	Y+31, r25	; 0x1f
+     658:	8e 8f       	std	Y+30, r24	; 0x1e
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+     65a:	8e 8d       	ldd	r24, Y+30	; 0x1e
+     65c:	9f 8d       	ldd	r25, Y+31	; 0x1f
+     65e:	00 97       	sbiw	r24, 0x00	; 0
+     660:	69 f7       	brne	.-38     	; 0x63c <step+0x15c>
+     662:	24 c0       	rjmp	.+72     	; 0x6ac <step+0x1cc>
+			__ticks --;
+		}
+		return;
+	}
+	else
+		__ticks = (uint16_t)__tmp;
+     664:	68 a1       	ldd	r22, Y+32	; 0x20
+     666:	79 a1       	ldd	r23, Y+33	; 0x21
+     668:	8a a1       	ldd	r24, Y+34	; 0x22
+     66a:	9b a1       	ldd	r25, Y+35	; 0x23
+     66c:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
+     670:	dc 01       	movw	r26, r24
+     672:	cb 01       	movw	r24, r22
+     674:	9f 8f       	std	Y+31, r25	; 0x1f
+     676:	8e 8f       	std	Y+30, r24	; 0x1e
+     678:	8e 8d       	ldd	r24, Y+30	; 0x1e
+     67a:	9f 8d       	ldd	r25, Y+31	; 0x1f
+     67c:	9b 8f       	std	Y+27, r25	; 0x1b
+     67e:	8a 8f       	std	Y+26, r24	; 0x1a
+     680:	8a 8d       	ldd	r24, Y+26	; 0x1a
+     682:	9b 8d       	ldd	r25, Y+27	; 0x1b
+     684:	01 97       	sbiw	r24, 0x01	; 1
+     686:	f1 f7       	brne	.-4      	; 0x684 <step+0x1a4>
+     688:	9b 8f       	std	Y+27, r25	; 0x1b
+     68a:	8a 8f       	std	Y+26, r24	; 0x1a
+     68c:	0f c0       	rjmp	.+30     	; 0x6ac <step+0x1cc>
+	{
+		_delay_ms(__us / 1000.0);
+		return;
+	}
+	else
+		__ticks = (uint8_t)__tmp;
+     68e:	69 a5       	ldd	r22, Y+41	; 0x29
+     690:	7a a5       	ldd	r23, Y+42	; 0x2a
+     692:	8b a5       	ldd	r24, Y+43	; 0x2b
+     694:	9c a5       	ldd	r25, Y+44	; 0x2c
+     696:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
+     69a:	dc 01       	movw	r26, r24
+     69c:	cb 01       	movw	r24, r22
+     69e:	88 a7       	std	Y+40, r24	; 0x28
+     6a0:	88 a5       	ldd	r24, Y+40	; 0x28
+     6a2:	89 8f       	std	Y+25, r24	; 0x19
+    can be achieved.
+*/
+void
+_delay_loop_1(uint8_t __count)
+{
+	__asm__ volatile (
+     6a4:	89 8d       	ldd	r24, Y+25	; 0x19
+     6a6:	8a 95       	dec	r24
+     6a8:	f1 f7       	brne	.-4      	; 0x6a6 <step+0x1c6>
+     6aa:	89 8f       	std	Y+25, r24	; 0x19
+            _delay_us(2);
+            stepper_port &= ~(1<<stepper.step_pin);
+     6ac:	a8 e0       	ldi	r26, 0x08	; 8
+     6ae:	b1 e0       	ldi	r27, 0x01	; 1
+     6b0:	e8 e0       	ldi	r30, 0x08	; 8
+     6b2:	f1 e0       	ldi	r31, 0x01	; 1
+     6b4:	80 81       	ld	r24, Z
+     6b6:	48 2f       	mov	r20, r24
+     6b8:	8f a9       	ldd	r24, Y+55	; 0x37
+     6ba:	28 2f       	mov	r18, r24
+     6bc:	30 e0       	ldi	r19, 0x00	; 0
+     6be:	81 e0       	ldi	r24, 0x01	; 1
+     6c0:	90 e0       	ldi	r25, 0x00	; 0
+     6c2:	02 c0       	rjmp	.+4      	; 0x6c8 <step+0x1e8>
+     6c4:	88 0f       	add	r24, r24
+     6c6:	99 1f       	adc	r25, r25
+     6c8:	2a 95       	dec	r18
+     6ca:	e2 f7       	brpl	.-8      	; 0x6c4 <step+0x1e4>
+     6cc:	80 95       	com	r24
+     6ce:	84 23       	and	r24, r20
+     6d0:	8c 93       	st	X, r24
+     6d2:	80 e0       	ldi	r24, 0x00	; 0
+     6d4:	90 e0       	ldi	r25, 0x00	; 0
+     6d6:	a0 e0       	ldi	r26, 0x00	; 0
+     6d8:	b0 e4       	ldi	r27, 0x40	; 64
+     6da:	8d 8b       	std	Y+21, r24	; 0x15
+     6dc:	9e 8b       	std	Y+22, r25	; 0x16
+     6de:	af 8b       	std	Y+23, r26	; 0x17
+     6e0:	b8 8f       	std	Y+24, r27	; 0x18
+ */
+void
+_delay_us(double __us)
+{
+	uint8_t __ticks;
+	double __tmp = ((F_CPU) / 3e6) * __us;
+     6e2:	6d 89       	ldd	r22, Y+21	; 0x15
+     6e4:	7e 89       	ldd	r23, Y+22	; 0x16
+     6e6:	8f 89       	ldd	r24, Y+23	; 0x17
+     6e8:	98 8d       	ldd	r25, Y+24	; 0x18
+     6ea:	2b ea       	ldi	r18, 0xAB	; 171
+     6ec:	3a ea       	ldi	r19, 0xAA	; 170
+     6ee:	4a ea       	ldi	r20, 0xAA	; 170
+     6f0:	50 e4       	ldi	r21, 0x40	; 64
+     6f2:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     6f6:	dc 01       	movw	r26, r24
+     6f8:	cb 01       	movw	r24, r22
+     6fa:	89 8b       	std	Y+17, r24	; 0x11
+     6fc:	9a 8b       	std	Y+18, r25	; 0x12
+     6fe:	ab 8b       	std	Y+19, r26	; 0x13
+     700:	bc 8b       	std	Y+20, r27	; 0x14
+	if (__tmp < 1.0)
+     702:	69 89       	ldd	r22, Y+17	; 0x11
+     704:	7a 89       	ldd	r23, Y+18	; 0x12
+     706:	8b 89       	ldd	r24, Y+19	; 0x13
+     708:	9c 89       	ldd	r25, Y+20	; 0x14
+     70a:	20 e0       	ldi	r18, 0x00	; 0
+     70c:	30 e0       	ldi	r19, 0x00	; 0
+     70e:	40 e8       	ldi	r20, 0x80	; 128
+     710:	5f e3       	ldi	r21, 0x3F	; 63
+     712:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
+     716:	88 23       	and	r24, r24
+     718:	1c f4       	brge	.+6      	; 0x720 <step+0x240>
+		__ticks = 1;
+     71a:	81 e0       	ldi	r24, 0x01	; 1
+     71c:	88 8b       	std	Y+16, r24	; 0x10
+     71e:	91 c0       	rjmp	.+290    	; 0x842 <step+0x362>
+	else if (__tmp > 255)
+     720:	69 89       	ldd	r22, Y+17	; 0x11
+     722:	7a 89       	ldd	r23, Y+18	; 0x12
+     724:	8b 89       	ldd	r24, Y+19	; 0x13
+     726:	9c 89       	ldd	r25, Y+20	; 0x14
+     728:	20 e0       	ldi	r18, 0x00	; 0
+     72a:	30 e0       	ldi	r19, 0x00	; 0
+     72c:	4f e7       	ldi	r20, 0x7F	; 127
+     72e:	53 e4       	ldi	r21, 0x43	; 67
+     730:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
+     734:	18 16       	cp	r1, r24
+     736:	0c f0       	brlt	.+2      	; 0x73a <step+0x25a>
+     738:	7b c0       	rjmp	.+246    	; 0x830 <step+0x350>
+	{
+		_delay_ms(__us / 1000.0);
+     73a:	6d 89       	ldd	r22, Y+21	; 0x15
+     73c:	7e 89       	ldd	r23, Y+22	; 0x16
+     73e:	8f 89       	ldd	r24, Y+23	; 0x17
+     740:	98 8d       	ldd	r25, Y+24	; 0x18
+     742:	20 e0       	ldi	r18, 0x00	; 0
+     744:	30 e0       	ldi	r19, 0x00	; 0
+     746:	4a e7       	ldi	r20, 0x7A	; 122
+     748:	54 e4       	ldi	r21, 0x44	; 68
+     74a:	0e 94 c3 08 	call	0x1186	; 0x1186 <__divsf3>
+     74e:	dc 01       	movw	r26, r24
+     750:	cb 01       	movw	r24, r22
+     752:	8c 87       	std	Y+12, r24	; 0x0c
+     754:	9d 87       	std	Y+13, r25	; 0x0d
+     756:	ae 87       	std	Y+14, r26	; 0x0e
+     758:	bf 87       	std	Y+15, r27	; 0x0f
+ */
+void
+_delay_ms(double __ms)
+{
+	uint16_t __ticks;
+	double __tmp = ((F_CPU) / 4e3) * __ms;
+     75a:	6c 85       	ldd	r22, Y+12	; 0x0c
+     75c:	7d 85       	ldd	r23, Y+13	; 0x0d
+     75e:	8e 85       	ldd	r24, Y+14	; 0x0e
+     760:	9f 85       	ldd	r25, Y+15	; 0x0f
+     762:	20 e0       	ldi	r18, 0x00	; 0
+     764:	30 e0       	ldi	r19, 0x00	; 0
+     766:	4a e7       	ldi	r20, 0x7A	; 122
+     768:	55 e4       	ldi	r21, 0x45	; 69
+     76a:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     76e:	dc 01       	movw	r26, r24
+     770:	cb 01       	movw	r24, r22
+     772:	88 87       	std	Y+8, r24	; 0x08
+     774:	99 87       	std	Y+9, r25	; 0x09
+     776:	aa 87       	std	Y+10, r26	; 0x0a
+     778:	bb 87       	std	Y+11, r27	; 0x0b
+	if (__tmp < 1.0)
+     77a:	68 85       	ldd	r22, Y+8	; 0x08
+     77c:	79 85       	ldd	r23, Y+9	; 0x09
+     77e:	8a 85       	ldd	r24, Y+10	; 0x0a
+     780:	9b 85       	ldd	r25, Y+11	; 0x0b
+     782:	20 e0       	ldi	r18, 0x00	; 0
+     784:	30 e0       	ldi	r19, 0x00	; 0
+     786:	40 e8       	ldi	r20, 0x80	; 128
+     788:	5f e3       	ldi	r21, 0x3F	; 63
+     78a:	0e 94 cf 09 	call	0x139e	; 0x139e <__ltsf2>
+     78e:	88 23       	and	r24, r24
+     790:	2c f4       	brge	.+10     	; 0x79c <step+0x2bc>
+		__ticks = 1;
+     792:	81 e0       	ldi	r24, 0x01	; 1
+     794:	90 e0       	ldi	r25, 0x00	; 0
+     796:	9f 83       	std	Y+7, r25	; 0x07
+     798:	8e 83       	std	Y+6, r24	; 0x06
+     79a:	3f c0       	rjmp	.+126    	; 0x81a <step+0x33a>
+	else if (__tmp > 65535)
+     79c:	68 85       	ldd	r22, Y+8	; 0x08
+     79e:	79 85       	ldd	r23, Y+9	; 0x09
+     7a0:	8a 85       	ldd	r24, Y+10	; 0x0a
+     7a2:	9b 85       	ldd	r25, Y+11	; 0x0b
+     7a4:	20 e0       	ldi	r18, 0x00	; 0
+     7a6:	3f ef       	ldi	r19, 0xFF	; 255
+     7a8:	4f e7       	ldi	r20, 0x7F	; 127
+     7aa:	57 e4       	ldi	r21, 0x47	; 71
+     7ac:	0e 94 6f 09 	call	0x12de	; 0x12de <__gtsf2>
+     7b0:	18 16       	cp	r1, r24
+     7b2:	4c f5       	brge	.+82     	; 0x806 <step+0x326>
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+     7b4:	6c 85       	ldd	r22, Y+12	; 0x0c
+     7b6:	7d 85       	ldd	r23, Y+13	; 0x0d
+     7b8:	8e 85       	ldd	r24, Y+14	; 0x0e
+     7ba:	9f 85       	ldd	r25, Y+15	; 0x0f
+     7bc:	20 e0       	ldi	r18, 0x00	; 0
+     7be:	30 e0       	ldi	r19, 0x00	; 0
+     7c0:	40 e2       	ldi	r20, 0x20	; 32
+     7c2:	51 e4       	ldi	r21, 0x41	; 65
+     7c4:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     7c8:	dc 01       	movw	r26, r24
+     7ca:	cb 01       	movw	r24, r22
+     7cc:	bc 01       	movw	r22, r24
+     7ce:	cd 01       	movw	r24, r26
+     7d0:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
+     7d4:	dc 01       	movw	r26, r24
+     7d6:	cb 01       	movw	r24, r22
+     7d8:	9f 83       	std	Y+7, r25	; 0x07
+     7da:	8e 83       	std	Y+6, r24	; 0x06
+     7dc:	0f c0       	rjmp	.+30     	; 0x7fc <step+0x31c>
+     7de:	80 e9       	ldi	r24, 0x90	; 144
+     7e0:	91 e0       	ldi	r25, 0x01	; 1
+     7e2:	9d 83       	std	Y+5, r25	; 0x05
+     7e4:	8c 83       	std	Y+4, r24	; 0x04
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+     7e6:	8c 81       	ldd	r24, Y+4	; 0x04
+     7e8:	9d 81       	ldd	r25, Y+5	; 0x05
+     7ea:	01 97       	sbiw	r24, 0x01	; 1
+     7ec:	f1 f7       	brne	.-4      	; 0x7ea <step+0x30a>
+     7ee:	9d 83       	std	Y+5, r25	; 0x05
+     7f0:	8c 83       	std	Y+4, r24	; 0x04
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+     7f2:	8e 81       	ldd	r24, Y+6	; 0x06
+     7f4:	9f 81       	ldd	r25, Y+7	; 0x07
+     7f6:	01 97       	sbiw	r24, 0x01	; 1
+     7f8:	9f 83       	std	Y+7, r25	; 0x07
+     7fa:	8e 83       	std	Y+6, r24	; 0x06
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+     7fc:	8e 81       	ldd	r24, Y+6	; 0x06
+     7fe:	9f 81       	ldd	r25, Y+7	; 0x07
+     800:	00 97       	sbiw	r24, 0x00	; 0
+     802:	69 f7       	brne	.-38     	; 0x7de <step+0x2fe>
+     804:	24 c0       	rjmp	.+72     	; 0x84e <step+0x36e>
+			__ticks --;
+		}
+		return;
+	}
+	else
+		__ticks = (uint16_t)__tmp;
+     806:	68 85       	ldd	r22, Y+8	; 0x08
+     808:	79 85       	ldd	r23, Y+9	; 0x09
+     80a:	8a 85       	ldd	r24, Y+10	; 0x0a
+     80c:	9b 85       	ldd	r25, Y+11	; 0x0b
+     80e:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
+     812:	dc 01       	movw	r26, r24
+     814:	cb 01       	movw	r24, r22
+     816:	9f 83       	std	Y+7, r25	; 0x07
+     818:	8e 83       	std	Y+6, r24	; 0x06
+     81a:	8e 81       	ldd	r24, Y+6	; 0x06
+     81c:	9f 81       	ldd	r25, Y+7	; 0x07
+     81e:	9b 83       	std	Y+3, r25	; 0x03
+     820:	8a 83       	std	Y+2, r24	; 0x02
+     822:	8a 81       	ldd	r24, Y+2	; 0x02
+     824:	9b 81       	ldd	r25, Y+3	; 0x03
+     826:	01 97       	sbiw	r24, 0x01	; 1
+     828:	f1 f7       	brne	.-4      	; 0x826 <step+0x346>
+     82a:	9b 83       	std	Y+3, r25	; 0x03
+     82c:	8a 83       	std	Y+2, r24	; 0x02
+     82e:	0f c0       	rjmp	.+30     	; 0x84e <step+0x36e>
+	{
+		_delay_ms(__us / 1000.0);
+		return;
+	}
+	else
+		__ticks = (uint8_t)__tmp;
+     830:	69 89       	ldd	r22, Y+17	; 0x11
+     832:	7a 89       	ldd	r23, Y+18	; 0x12
+     834:	8b 89       	ldd	r24, Y+19	; 0x13
+     836:	9c 89       	ldd	r25, Y+20	; 0x14
+     838:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <__fixunssfsi>
+     83c:	dc 01       	movw	r26, r24
+     83e:	cb 01       	movw	r24, r22
+     840:	88 8b       	std	Y+16, r24	; 0x10
+     842:	88 89       	ldd	r24, Y+16	; 0x10
+     844:	89 83       	std	Y+1, r24	; 0x01
+    can be achieved.
+*/
+void
+_delay_loop_1(uint8_t __count)
+{
+	__asm__ volatile (
+     846:	89 81       	ldd	r24, Y+1	; 0x01
+     848:	8a 95       	dec	r24
+     84a:	f1 f7       	brne	.-4      	; 0x848 <step+0x368>
+     84c:	89 83       	std	Y+1, r24	; 0x01
+            _delay_us(2);
+}
+     84e:	ea 96       	adiw	r28, 0x3a	; 58
+     850:	0f b6       	in	r0, 0x3f	; 63
+     852:	f8 94       	cli
+     854:	de bf       	out	0x3e, r29	; 62
+     856:	0f be       	out	0x3f, r0	; 63
+     858:	cd bf       	out	0x3d, r28	; 61
+     85a:	cf 91       	pop	r28
+     85c:	df 91       	pop	r29
+     85e:	1f 91       	pop	r17
+     860:	0f 91       	pop	r16
+     862:	08 95       	ret
+
+00000864 <count_steps>:
+
+void static count_steps(volatile struct stepper *stepperino)
+{
+     864:	df 93       	push	r29
+     866:	cf 93       	push	r28
+     868:	00 d0       	rcall	.+0      	; 0x86a <count_steps+0x6>
+     86a:	0f 92       	push	r0
+     86c:	cd b7       	in	r28, 0x3d	; 61
+     86e:	de b7       	in	r29, 0x3e	; 62
+     870:	9a 83       	std	Y+2, r25	; 0x02
+     872:	89 83       	std	Y+1, r24	; 0x01
+    switch(stepperino->direction)
+     874:	e9 81       	ldd	r30, Y+1	; 0x01
+     876:	fa 81       	ldd	r31, Y+2	; 0x02
+     878:	85 81       	ldd	r24, Z+5	; 0x05
+     87a:	28 2f       	mov	r18, r24
+     87c:	30 e0       	ldi	r19, 0x00	; 0
+     87e:	3c 83       	std	Y+4, r19	; 0x04
+     880:	2b 83       	std	Y+3, r18	; 0x03
+     882:	8b 81       	ldd	r24, Y+3	; 0x03
+     884:	9c 81       	ldd	r25, Y+4	; 0x04
+     886:	81 30       	cpi	r24, 0x01	; 1
+     888:	91 05       	cpc	r25, r1
+     88a:	31 f0       	breq	.+12     	; 0x898 <count_steps+0x34>
+     88c:	2b 81       	ldd	r18, Y+3	; 0x03
+     88e:	3c 81       	ldd	r19, Y+4	; 0x04
+     890:	22 30       	cpi	r18, 0x02	; 2
+     892:	31 05       	cpc	r19, r1
+     894:	59 f0       	breq	.+22     	; 0x8ac <count_steps+0x48>
+     896:	13 c0       	rjmp	.+38     	; 0x8be <count_steps+0x5a>
+        {
+        case forward:
+        stepperino->steps++;
+     898:	e9 81       	ldd	r30, Y+1	; 0x01
+     89a:	fa 81       	ldd	r31, Y+2	; 0x02
+     89c:	80 85       	ldd	r24, Z+8	; 0x08
+     89e:	91 85       	ldd	r25, Z+9	; 0x09
+     8a0:	01 96       	adiw	r24, 0x01	; 1
+     8a2:	e9 81       	ldd	r30, Y+1	; 0x01
+     8a4:	fa 81       	ldd	r31, Y+2	; 0x02
+     8a6:	91 87       	std	Z+9, r25	; 0x09
+     8a8:	80 87       	std	Z+8, r24	; 0x08
+     8aa:	09 c0       	rjmp	.+18     	; 0x8be <count_steps+0x5a>
+        break;
+        case backward:
+        stepperino->steps--;
+     8ac:	e9 81       	ldd	r30, Y+1	; 0x01
+     8ae:	fa 81       	ldd	r31, Y+2	; 0x02
+     8b0:	80 85       	ldd	r24, Z+8	; 0x08
+     8b2:	91 85       	ldd	r25, Z+9	; 0x09
+     8b4:	01 97       	sbiw	r24, 0x01	; 1
+     8b6:	e9 81       	ldd	r30, Y+1	; 0x01
+     8b8:	fa 81       	ldd	r31, Y+2	; 0x02
+     8ba:	91 87       	std	Z+9, r25	; 0x09
+     8bc:	80 87       	std	Z+8, r24	; 0x08
+        break;
+        default:
+        break;
+        }
+}
+     8be:	0f 90       	pop	r0
+     8c0:	0f 90       	pop	r0
+     8c2:	0f 90       	pop	r0
+     8c4:	0f 90       	pop	r0
+     8c6:	cf 91       	pop	r28
+     8c8:	df 91       	pop	r29
+     8ca:	08 95       	ret
+
+000008cc <Handle_steps>:
+
+void Handle_steps(volatile struct stepper *stepperino)
+{
+     8cc:	0f 93       	push	r16
+     8ce:	1f 93       	push	r17
+     8d0:	df 93       	push	r29
+     8d2:	cf 93       	push	r28
+     8d4:	0f 92       	push	r0
+     8d6:	0f 92       	push	r0
+     8d8:	cd b7       	in	r28, 0x3d	; 61
+     8da:	de b7       	in	r29, 0x3e	; 62
+     8dc:	9a 83       	std	Y+2, r25	; 0x02
+     8de:	89 83       	std	Y+1, r24	; 0x01
+    if(stepperino->time_profile == 0)
+     8e0:	e9 81       	ldd	r30, Y+1	; 0x01
+     8e2:	fa 81       	ldd	r31, Y+2	; 0x02
+     8e4:	84 81       	ldd	r24, Z+4	; 0x04
+     8e6:	88 23       	and	r24, r24
+     8e8:	09 f4       	brne	.+2      	; 0x8ec <Handle_steps+0x20>
+     8ea:	3e c0       	rjmp	.+124    	; 0x968 <Handle_steps+0x9c>
+    {
+
+    }
+    else if(ms >= (stepperino->last_step + stepperino->time_profile))
+     8ec:	e9 81       	ldd	r30, Y+1	; 0x01
+     8ee:	fa 81       	ldd	r31, Y+2	; 0x02
+     8f0:	20 81       	ld	r18, Z
+     8f2:	31 81       	ldd	r19, Z+1	; 0x01
+     8f4:	42 81       	ldd	r20, Z+2	; 0x02
+     8f6:	53 81       	ldd	r21, Z+3	; 0x03
+     8f8:	e9 81       	ldd	r30, Y+1	; 0x01
+     8fa:	fa 81       	ldd	r31, Y+2	; 0x02
+     8fc:	84 81       	ldd	r24, Z+4	; 0x04
+     8fe:	88 2f       	mov	r24, r24
+     900:	90 e0       	ldi	r25, 0x00	; 0
+     902:	a0 e0       	ldi	r26, 0x00	; 0
+     904:	b0 e0       	ldi	r27, 0x00	; 0
+     906:	28 0f       	add	r18, r24
+     908:	39 1f       	adc	r19, r25
+     90a:	4a 1f       	adc	r20, r26
+     90c:	5b 1f       	adc	r21, r27
+     90e:	80 91 1c 03 	lds	r24, 0x031C
+     912:	90 91 1d 03 	lds	r25, 0x031D
+     916:	a0 91 1e 03 	lds	r26, 0x031E
+     91a:	b0 91 1f 03 	lds	r27, 0x031F
+     91e:	82 17       	cp	r24, r18
+     920:	93 07       	cpc	r25, r19
+     922:	a4 07       	cpc	r26, r20
+     924:	b5 07       	cpc	r27, r21
+     926:	04 f1       	brlt	.+64     	; 0x968 <Handle_steps+0x9c>
+    {
+        step(*stepperino);
+     928:	e9 81       	ldd	r30, Y+1	; 0x01
+     92a:	fa 81       	ldd	r31, Y+2	; 0x02
+     92c:	00 81       	ld	r16, Z
+     92e:	11 81       	ldd	r17, Z+1	; 0x01
+     930:	22 81       	ldd	r18, Z+2	; 0x02
+     932:	33 81       	ldd	r19, Z+3	; 0x03
+     934:	44 81       	ldd	r20, Z+4	; 0x04
+     936:	55 81       	ldd	r21, Z+5	; 0x05
+     938:	66 81       	ldd	r22, Z+6	; 0x06
+     93a:	77 81       	ldd	r23, Z+7	; 0x07
+     93c:	80 85       	ldd	r24, Z+8	; 0x08
+     93e:	91 85       	ldd	r25, Z+9	; 0x09
+     940:	0e 94 70 02 	call	0x4e0	; 0x4e0 <step>
+        stepperino->last_step = ms;
+     944:	80 91 1c 03 	lds	r24, 0x031C
+     948:	90 91 1d 03 	lds	r25, 0x031D
+     94c:	a0 91 1e 03 	lds	r26, 0x031E
+     950:	b0 91 1f 03 	lds	r27, 0x031F
+     954:	e9 81       	ldd	r30, Y+1	; 0x01
+     956:	fa 81       	ldd	r31, Y+2	; 0x02
+     958:	80 83       	st	Z, r24
+     95a:	91 83       	std	Z+1, r25	; 0x01
+     95c:	a2 83       	std	Z+2, r26	; 0x02
+     95e:	b3 83       	std	Z+3, r27	; 0x03
+        count_steps(stepperino);
+     960:	89 81       	ldd	r24, Y+1	; 0x01
+     962:	9a 81       	ldd	r25, Y+2	; 0x02
+     964:	0e 94 32 04 	call	0x864	; 0x864 <count_steps>
+
+    }
+}
+     968:	0f 90       	pop	r0
+     96a:	0f 90       	pop	r0
+     96c:	cf 91       	pop	r28
+     96e:	df 91       	pop	r29
+     970:	1f 91       	pop	r17
+     972:	0f 91       	pop	r16
+     974:	08 95       	ret
+
+00000976 <turn>:
+
+void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct stepper *stepperino2)
+{
+     976:	df 93       	push	r29
+     978:	cf 93       	push	r28
+     97a:	cd b7       	in	r28, 0x3d	; 61
+     97c:	de b7       	in	r29, 0x3e	; 62
+     97e:	e0 97       	sbiw	r28, 0x30	; 48
+     980:	0f b6       	in	r0, 0x3f	; 63
+     982:	f8 94       	cli
+     984:	de bf       	out	0x3e, r29	; 62
+     986:	0f be       	out	0x3f, r0	; 63
+     988:	cd bf       	out	0x3d, r28	; 61
+     98a:	98 8f       	std	Y+24, r25	; 0x18
+     98c:	8f 8b       	std	Y+23, r24	; 0x17
+     98e:	7a 8f       	std	Y+26, r23	; 0x1a
+     990:	69 8f       	std	Y+25, r22	; 0x19
+     992:	5c 8f       	std	Y+28, r21	; 0x1c
+     994:	4b 8f       	std	Y+27, r20	; 0x1b
+    int16_t turn_steps = (float)(0.55)*degrees;
+     996:	8f 89       	ldd	r24, Y+23	; 0x17
+     998:	98 8d       	ldd	r25, Y+24	; 0x18
+     99a:	aa 27       	eor	r26, r26
+     99c:	97 fd       	sbrc	r25, 7
+     99e:	a0 95       	com	r26
+     9a0:	ba 2f       	mov	r27, r26
+     9a2:	bc 01       	movw	r22, r24
+     9a4:	cd 01       	movw	r24, r26
+     9a6:	0e 94 ff 09 	call	0x13fe	; 0x13fe <__floatsisf>
+     9aa:	dc 01       	movw	r26, r24
+     9ac:	cb 01       	movw	r24, r22
+     9ae:	bc 01       	movw	r22, r24
+     9b0:	cd 01       	movw	r24, r26
+     9b2:	2d ec       	ldi	r18, 0xCD	; 205
+     9b4:	3c ec       	ldi	r19, 0xCC	; 204
+     9b6:	4c e0       	ldi	r20, 0x0C	; 12
+     9b8:	5f e3       	ldi	r21, 0x3F	; 63
+     9ba:	0e 94 c9 07 	call	0xf92	; 0xf92 <__mulsf3>
+     9be:	dc 01       	movw	r26, r24
+     9c0:	cb 01       	movw	r24, r22
+     9c2:	bc 01       	movw	r22, r24
+     9c4:	cd 01       	movw	r24, r26
+     9c6:	0e 94 5d 0a 	call	0x14ba	; 0x14ba <__fixsfsi>
+     9ca:	dc 01       	movw	r26, r24
+     9cc:	cb 01       	movw	r24, r22
+     9ce:	9a 83       	std	Y+2, r25	; 0x02
+     9d0:	89 83       	std	Y+1, r24	; 0x01
+    struct stepper copy1 = *stepperino1;
+     9d2:	89 8d       	ldd	r24, Y+25	; 0x19
+     9d4:	9a 8d       	ldd	r25, Y+26	; 0x1a
+     9d6:	9e 01       	movw	r18, r28
+     9d8:	2d 5f       	subi	r18, 0xFD	; 253
+     9da:	3f 4f       	sbci	r19, 0xFF	; 255
+     9dc:	3e 8f       	std	Y+30, r19	; 0x1e
+     9de:	2d 8f       	std	Y+29, r18	; 0x1d
+     9e0:	98 a3       	std	Y+32, r25	; 0x20
+     9e2:	8f 8f       	std	Y+31, r24	; 0x1f
+     9e4:	3a e0       	ldi	r19, 0x0A	; 10
+     9e6:	39 a3       	std	Y+33, r19	; 0x21
+     9e8:	ef 8d       	ldd	r30, Y+31	; 0x1f
+     9ea:	f8 a1       	ldd	r31, Y+32	; 0x20
+     9ec:	00 80       	ld	r0, Z
+     9ee:	2f 8d       	ldd	r18, Y+31	; 0x1f
+     9f0:	38 a1       	ldd	r19, Y+32	; 0x20
+     9f2:	2f 5f       	subi	r18, 0xFF	; 255
+     9f4:	3f 4f       	sbci	r19, 0xFF	; 255
+     9f6:	38 a3       	std	Y+32, r19	; 0x20
+     9f8:	2f 8f       	std	Y+31, r18	; 0x1f
+     9fa:	ed 8d       	ldd	r30, Y+29	; 0x1d
+     9fc:	fe 8d       	ldd	r31, Y+30	; 0x1e
+     9fe:	00 82       	st	Z, r0
+     a00:	2d 8d       	ldd	r18, Y+29	; 0x1d
+     a02:	3e 8d       	ldd	r19, Y+30	; 0x1e
+     a04:	2f 5f       	subi	r18, 0xFF	; 255
+     a06:	3f 4f       	sbci	r19, 0xFF	; 255
+     a08:	3e 8f       	std	Y+30, r19	; 0x1e
+     a0a:	2d 8f       	std	Y+29, r18	; 0x1d
+     a0c:	39 a1       	ldd	r19, Y+33	; 0x21
+     a0e:	31 50       	subi	r19, 0x01	; 1
+     a10:	39 a3       	std	Y+33, r19	; 0x21
+     a12:	89 a1       	ldd	r24, Y+33	; 0x21
+     a14:	88 23       	and	r24, r24
+     a16:	41 f7       	brne	.-48     	; 0x9e8 <turn+0x72>
+    struct stepper copy2 = *stepperino2;
+     a18:	8b 8d       	ldd	r24, Y+27	; 0x1b
+     a1a:	9c 8d       	ldd	r25, Y+28	; 0x1c
+     a1c:	fe 01       	movw	r30, r28
+     a1e:	3d 96       	adiw	r30, 0x0d	; 13
+     a20:	fb a3       	std	Y+35, r31	; 0x23
+     a22:	ea a3       	std	Y+34, r30	; 0x22
+     a24:	9d a3       	std	Y+37, r25	; 0x25
+     a26:	8c a3       	std	Y+36, r24	; 0x24
+     a28:	fa e0       	ldi	r31, 0x0A	; 10
+     a2a:	fe a3       	std	Y+38, r31	; 0x26
+     a2c:	ec a1       	ldd	r30, Y+36	; 0x24
+     a2e:	fd a1       	ldd	r31, Y+37	; 0x25
+     a30:	00 80       	ld	r0, Z
+     a32:	2c a1       	ldd	r18, Y+36	; 0x24
+     a34:	3d a1       	ldd	r19, Y+37	; 0x25
+     a36:	2f 5f       	subi	r18, 0xFF	; 255
+     a38:	3f 4f       	sbci	r19, 0xFF	; 255
+     a3a:	3d a3       	std	Y+37, r19	; 0x25
+     a3c:	2c a3       	std	Y+36, r18	; 0x24
+     a3e:	ea a1       	ldd	r30, Y+34	; 0x22
+     a40:	fb a1       	ldd	r31, Y+35	; 0x23
+     a42:	00 82       	st	Z, r0
+     a44:	2a a1       	ldd	r18, Y+34	; 0x22
+     a46:	3b a1       	ldd	r19, Y+35	; 0x23
+     a48:	2f 5f       	subi	r18, 0xFF	; 255
+     a4a:	3f 4f       	sbci	r19, 0xFF	; 255
+     a4c:	3b a3       	std	Y+35, r19	; 0x23
+     a4e:	2a a3       	std	Y+34, r18	; 0x22
+     a50:	3e a1       	ldd	r19, Y+38	; 0x26
+     a52:	31 50       	subi	r19, 0x01	; 1
+     a54:	3e a3       	std	Y+38, r19	; 0x26
+     a56:	8e a1       	ldd	r24, Y+38	; 0x26
+     a58:	88 23       	and	r24, r24
+     a5a:	41 f7       	brne	.-48     	; 0xa2c <turn+0xb6>
+
+        stepperino1->time_profile = 10;
+     a5c:	e9 8d       	ldd	r30, Y+25	; 0x19
+     a5e:	fa 8d       	ldd	r31, Y+26	; 0x1a
+     a60:	8a e0       	ldi	r24, 0x0A	; 10
+     a62:	84 83       	std	Z+4, r24	; 0x04
+        stepperino1->steps = 0;
+     a64:	e9 8d       	ldd	r30, Y+25	; 0x19
+     a66:	fa 8d       	ldd	r31, Y+26	; 0x1a
+     a68:	11 86       	std	Z+9, r1	; 0x09
+     a6a:	10 86       	std	Z+8, r1	; 0x08
+        stepperino2->time_profile = 10;
+     a6c:	eb 8d       	ldd	r30, Y+27	; 0x1b
+     a6e:	fc 8d       	ldd	r31, Y+28	; 0x1c
+     a70:	8a e0       	ldi	r24, 0x0A	; 10
+     a72:	84 83       	std	Z+4, r24	; 0x04
+        stepperino2->steps = 0;
+     a74:	eb 8d       	ldd	r30, Y+27	; 0x1b
+     a76:	fc 8d       	ldd	r31, Y+28	; 0x1c
+     a78:	11 86       	std	Z+9, r1	; 0x09
+     a7a:	10 86       	std	Z+8, r1	; 0x08
+
+    if(turn_steps > 0)
+     a7c:	89 81       	ldd	r24, Y+1	; 0x01
+     a7e:	9a 81       	ldd	r25, Y+2	; 0x02
+     a80:	18 16       	cp	r1, r24
+     a82:	19 06       	cpc	r1, r25
+     a84:	14 f5       	brge	.+68     	; 0xaca <turn+0x154>
+    {
+        stepperino1->direction = forward;
+     a86:	e9 8d       	ldd	r30, Y+25	; 0x19
+     a88:	fa 8d       	ldd	r31, Y+26	; 0x1a
+     a8a:	81 e0       	ldi	r24, 0x01	; 1
+     a8c:	85 83       	std	Z+5, r24	; 0x05
+        stepperino2->direction = forward;
+     a8e:	eb 8d       	ldd	r30, Y+27	; 0x1b
+     a90:	fc 8d       	ldd	r31, Y+28	; 0x1c
+     a92:	81 e0       	ldi	r24, 0x01	; 1
+     a94:	85 83       	std	Z+5, r24	; 0x05
+        set_dir(stepperino1);
+     a96:	89 8d       	ldd	r24, Y+25	; 0x19
+     a98:	9a 8d       	ldd	r25, Y+26	; 0x1a
+     a9a:	0e 94 23 02 	call	0x446	; 0x446 <set_dir>
+        set_dir(stepperino2);
+     a9e:	8b 8d       	ldd	r24, Y+27	; 0x1b
+     aa0:	9c 8d       	ldd	r25, Y+28	; 0x1c
+     aa2:	0e 94 23 02 	call	0x446	; 0x446 <set_dir>
+     aa6:	08 c0       	rjmp	.+16     	; 0xab8 <turn+0x142>
+
+        while(stepperino1->steps < (int)turn_steps)
+        {
+        Handle_steps(stepperino1);
+     aa8:	89 8d       	ldd	r24, Y+25	; 0x19
+     aaa:	9a 8d       	ldd	r25, Y+26	; 0x1a
+     aac:	0e 94 66 04 	call	0x8cc	; 0x8cc <Handle_steps>
+        Handle_steps(stepperino2);
+     ab0:	8b 8d       	ldd	r24, Y+27	; 0x1b
+     ab2:	9c 8d       	ldd	r25, Y+28	; 0x1c
+     ab4:	0e 94 66 04 	call	0x8cc	; 0x8cc <Handle_steps>
+        stepperino1->direction = forward;
+        stepperino2->direction = forward;
+        set_dir(stepperino1);
+        set_dir(stepperino2);
+
+        while(stepperino1->steps < (int)turn_steps)
+     ab8:	e9 8d       	ldd	r30, Y+25	; 0x19
+     aba:	fa 8d       	ldd	r31, Y+26	; 0x1a
+     abc:	20 85       	ldd	r18, Z+8	; 0x08
+     abe:	31 85       	ldd	r19, Z+9	; 0x09
+     ac0:	89 81       	ldd	r24, Y+1	; 0x01
+     ac2:	9a 81       	ldd	r25, Y+2	; 0x02
+     ac4:	28 17       	cp	r18, r24
+     ac6:	39 07       	cpc	r19, r25
+     ac8:	7c f3       	brlt	.-34     	; 0xaa8 <turn+0x132>
+        Handle_steps(stepperino1);
+        Handle_steps(stepperino2);
+        }
+    }
+
+    if(turn_steps < 0)
+     aca:	89 81       	ldd	r24, Y+1	; 0x01
+     acc:	9a 81       	ldd	r25, Y+2	; 0x02
+     ace:	99 23       	and	r25, r25
+     ad0:	14 f5       	brge	.+68     	; 0xb16 <turn+0x1a0>
+    {
+        //turn_steps = abs(turn_steps);
+        stepperino1->direction = backward;
+     ad2:	e9 8d       	ldd	r30, Y+25	; 0x19
+     ad4:	fa 8d       	ldd	r31, Y+26	; 0x1a
+     ad6:	82 e0       	ldi	r24, 0x02	; 2
+     ad8:	85 83       	std	Z+5, r24	; 0x05
+        stepperino2->direction = backward;
+     ada:	eb 8d       	ldd	r30, Y+27	; 0x1b
+     adc:	fc 8d       	ldd	r31, Y+28	; 0x1c
+     ade:	82 e0       	ldi	r24, 0x02	; 2
+     ae0:	85 83       	std	Z+5, r24	; 0x05
+        set_dir(stepperino1);
+     ae2:	89 8d       	ldd	r24, Y+25	; 0x19
+     ae4:	9a 8d       	ldd	r25, Y+26	; 0x1a
+     ae6:	0e 94 23 02 	call	0x446	; 0x446 <set_dir>
+        set_dir(stepperino2);
+     aea:	8b 8d       	ldd	r24, Y+27	; 0x1b
+     aec:	9c 8d       	ldd	r25, Y+28	; 0x1c
+     aee:	0e 94 23 02 	call	0x446	; 0x446 <set_dir>
+     af2:	08 c0       	rjmp	.+16     	; 0xb04 <turn+0x18e>
+
+        while(stepperino2->steps > turn_steps)
+        {
+        //transmit_byte(turn_steps);
+        Handle_steps(stepperino1);
+     af4:	89 8d       	ldd	r24, Y+25	; 0x19
+     af6:	9a 8d       	ldd	r25, Y+26	; 0x1a
+     af8:	0e 94 66 04 	call	0x8cc	; 0x8cc <Handle_steps>
+        Handle_steps(stepperino2);
+     afc:	8b 8d       	ldd	r24, Y+27	; 0x1b
+     afe:	9c 8d       	ldd	r25, Y+28	; 0x1c
+     b00:	0e 94 66 04 	call	0x8cc	; 0x8cc <Handle_steps>
+        stepperino1->direction = backward;
+        stepperino2->direction = backward;
+        set_dir(stepperino1);
+        set_dir(stepperino2);
+
+        while(stepperino2->steps > turn_steps)
+     b04:	eb 8d       	ldd	r30, Y+27	; 0x1b
+     b06:	fc 8d       	ldd	r31, Y+28	; 0x1c
+     b08:	20 85       	ldd	r18, Z+8	; 0x08
+     b0a:	31 85       	ldd	r19, Z+9	; 0x09
+     b0c:	89 81       	ldd	r24, Y+1	; 0x01
+     b0e:	9a 81       	ldd	r25, Y+2	; 0x02
+     b10:	82 17       	cp	r24, r18
+     b12:	93 07       	cpc	r25, r19
+     b14:	7c f3       	brlt	.-34     	; 0xaf4 <turn+0x17e>
+        //transmit_byte(turn_steps);
+        Handle_steps(stepperino1);
+        Handle_steps(stepperino2);
+        }
+    }
+        *stepperino1 = copy1;
+     b16:	89 8d       	ldd	r24, Y+25	; 0x19
+     b18:	9a 8d       	ldd	r25, Y+26	; 0x1a
+     b1a:	98 a7       	std	Y+40, r25	; 0x28
+     b1c:	8f a3       	std	Y+39, r24	; 0x27
+     b1e:	fe 01       	movw	r30, r28
+     b20:	33 96       	adiw	r30, 0x03	; 3
+     b22:	fa a7       	std	Y+42, r31	; 0x2a
+     b24:	e9 a7       	std	Y+41, r30	; 0x29
+     b26:	fa e0       	ldi	r31, 0x0A	; 10
+     b28:	fb a7       	std	Y+43, r31	; 0x2b
+     b2a:	e9 a5       	ldd	r30, Y+41	; 0x29
+     b2c:	fa a5       	ldd	r31, Y+42	; 0x2a
+     b2e:	00 80       	ld	r0, Z
+     b30:	29 a5       	ldd	r18, Y+41	; 0x29
+     b32:	3a a5       	ldd	r19, Y+42	; 0x2a
+     b34:	2f 5f       	subi	r18, 0xFF	; 255
+     b36:	3f 4f       	sbci	r19, 0xFF	; 255
+     b38:	3a a7       	std	Y+42, r19	; 0x2a
+     b3a:	29 a7       	std	Y+41, r18	; 0x29
+     b3c:	ef a1       	ldd	r30, Y+39	; 0x27
+     b3e:	f8 a5       	ldd	r31, Y+40	; 0x28
+     b40:	00 82       	st	Z, r0
+     b42:	2f a1       	ldd	r18, Y+39	; 0x27
+     b44:	38 a5       	ldd	r19, Y+40	; 0x28
+     b46:	2f 5f       	subi	r18, 0xFF	; 255
+     b48:	3f 4f       	sbci	r19, 0xFF	; 255
+     b4a:	38 a7       	std	Y+40, r19	; 0x28
+     b4c:	2f a3       	std	Y+39, r18	; 0x27
+     b4e:	3b a5       	ldd	r19, Y+43	; 0x2b
+     b50:	31 50       	subi	r19, 0x01	; 1
+     b52:	3b a7       	std	Y+43, r19	; 0x2b
+     b54:	8b a5       	ldd	r24, Y+43	; 0x2b
+     b56:	88 23       	and	r24, r24
+     b58:	41 f7       	brne	.-48     	; 0xb2a <turn+0x1b4>
+        *stepperino2 = copy2;
+     b5a:	8b 8d       	ldd	r24, Y+27	; 0x1b
+     b5c:	9c 8d       	ldd	r25, Y+28	; 0x1c
+     b5e:	9d a7       	std	Y+45, r25	; 0x2d
+     b60:	8c a7       	std	Y+44, r24	; 0x2c
+     b62:	fe 01       	movw	r30, r28
+     b64:	3d 96       	adiw	r30, 0x0d	; 13
+     b66:	ff a7       	std	Y+47, r31	; 0x2f
+     b68:	ee a7       	std	Y+46, r30	; 0x2e
+     b6a:	fa e0       	ldi	r31, 0x0A	; 10
+     b6c:	f8 ab       	std	Y+48, r31	; 0x30
+     b6e:	ee a5       	ldd	r30, Y+46	; 0x2e
+     b70:	ff a5       	ldd	r31, Y+47	; 0x2f
+     b72:	00 80       	ld	r0, Z
+     b74:	2e a5       	ldd	r18, Y+46	; 0x2e
+     b76:	3f a5       	ldd	r19, Y+47	; 0x2f
+     b78:	2f 5f       	subi	r18, 0xFF	; 255
+     b7a:	3f 4f       	sbci	r19, 0xFF	; 255
+     b7c:	3f a7       	std	Y+47, r19	; 0x2f
+     b7e:	2e a7       	std	Y+46, r18	; 0x2e
+     b80:	ec a5       	ldd	r30, Y+44	; 0x2c
+     b82:	fd a5       	ldd	r31, Y+45	; 0x2d
+     b84:	00 82       	st	Z, r0
+     b86:	2c a5       	ldd	r18, Y+44	; 0x2c
+     b88:	3d a5       	ldd	r19, Y+45	; 0x2d
+     b8a:	2f 5f       	subi	r18, 0xFF	; 255
+     b8c:	3f 4f       	sbci	r19, 0xFF	; 255
+     b8e:	3d a7       	std	Y+45, r19	; 0x2d
+     b90:	2c a7       	std	Y+44, r18	; 0x2c
+     b92:	38 a9       	ldd	r19, Y+48	; 0x30
+     b94:	31 50       	subi	r19, 0x01	; 1
+     b96:	38 ab       	std	Y+48, r19	; 0x30
+     b98:	88 a9       	ldd	r24, Y+48	; 0x30
+     b9a:	88 23       	and	r24, r24
+     b9c:	41 f7       	brne	.-48     	; 0xb6e <turn+0x1f8>
+}
+     b9e:	e0 96       	adiw	r28, 0x30	; 48
+     ba0:	0f b6       	in	r0, 0x3f	; 63
+     ba2:	f8 94       	cli
+     ba4:	de bf       	out	0x3e, r29	; 62
+     ba6:	0f be       	out	0x3f, r0	; 63
+     ba8:	cd bf       	out	0x3d, r28	; 61
+     baa:	cf 91       	pop	r28
+     bac:	df 91       	pop	r29
+     bae:	08 95       	ret
+
+00000bb0 <init_stepper_timer0>:
+
+void init_stepper_timer0()
+{
+     bb0:	df 93       	push	r29
+     bb2:	cf 93       	push	r28
+     bb4:	cd b7       	in	r28, 0x3d	; 61
+     bb6:	de b7       	in	r29, 0x3e	; 62
+    TCCR0A |= (0<<WGM01) | (0<<WGM00);
+     bb8:	a4 e4       	ldi	r26, 0x44	; 68
+     bba:	b0 e0       	ldi	r27, 0x00	; 0
+     bbc:	e4 e4       	ldi	r30, 0x44	; 68
+     bbe:	f0 e0       	ldi	r31, 0x00	; 0
+     bc0:	80 81       	ld	r24, Z
+     bc2:	8c 93       	st	X, r24
+    TCCR0B |= (0<<WGM02) | (1<<CS02) | (0<<CS01) | (0<<CS00);
+     bc4:	a5 e4       	ldi	r26, 0x45	; 69
+     bc6:	b0 e0       	ldi	r27, 0x00	; 0
+     bc8:	e5 e4       	ldi	r30, 0x45	; 69
+     bca:	f0 e0       	ldi	r31, 0x00	; 0
+     bcc:	80 81       	ld	r24, Z
+     bce:	84 60       	ori	r24, 0x04	; 4
+     bd0:	8c 93       	st	X, r24
+    TIMSK0 |= (1<<TOIE0);
+     bd2:	ae e6       	ldi	r26, 0x6E	; 110
+     bd4:	b0 e0       	ldi	r27, 0x00	; 0
+     bd6:	ee e6       	ldi	r30, 0x6E	; 110
+     bd8:	f0 e0       	ldi	r31, 0x00	; 0
+     bda:	80 81       	ld	r24, Z
+     bdc:	81 60       	ori	r24, 0x01	; 1
+     bde:	8c 93       	st	X, r24
+}
      be0:	cf 91       	pop	r28
      be2:	df 91       	pop	r29
      be4:	08 95       	ret
