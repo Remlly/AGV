@@ -20,7 +20,7 @@ struct stepper
     uint8_t direction;
     uint8_t step_pin;
     uint8_t dir_pin;
-    uint16_t steps;
+    int16_t steps;
 };
 
 volatile long int ms;
@@ -110,11 +110,11 @@ void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct
     if(turn_steps > 0)
     {
         stepperino1->direction = forward;
-        stepperino2->direction = backward;
+        stepperino2->direction = forward;
         set_dir(stepperino1);
         set_dir(stepperino2);
 
-        while(stepperino1->steps <= (int)turn_steps)
+        while(stepperino1->steps < (int)turn_steps)
         {
         Handle_steps(stepperino1);
         Handle_steps(stepperino2);
@@ -123,13 +123,13 @@ void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct
 
     if(turn_steps < 0)
     {
-        turn_steps = abs(turn_steps);
+        //turn_steps = abs(turn_steps);
         stepperino1->direction = backward;
-        stepperino2->direction = forward;
+        stepperino2->direction = backward;
         set_dir(stepperino1);
         set_dir(stepperino2);
 
-        while(stepperino2->steps <= turn_steps)
+        while(stepperino2->steps > turn_steps)
         {
         //transmit_byte(turn_steps);
         Handle_steps(stepperino1);
@@ -158,19 +158,16 @@ int main(void)
 
     ///initializing serial coms
     USART_Init(MYUBRR);
+
     stepper2.direction = forward;
-    stepper1.direction = forward;
+    stepper1.direction = backward;
+    stepper1.time_profile = 10;
+    stepper2.time_profile = 10;
 
-    stepper1.time_profile = 3;
-    stepper2.time_profile = 3;
-
-    //turn(90, &stepper1, &stepper2);
+    turn(-360, &stepper1, &stepper2);
     while(1)
     {
-        Handle_steps(&stepper1);
-        Handle_steps(&stepper2);
-        set_dir(&stepper1);
-        set_dir(&stepper2);
+      //turn(360, &stepper1, &stepper2);
     }
     ;
 
