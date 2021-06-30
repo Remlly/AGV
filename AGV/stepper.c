@@ -78,7 +78,7 @@ void Handle_steps(volatile struct stepper *stepperino)
 
 void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct stepper *stepperino2)
 {
-    int16_t turn_steps = (float)(0.55)*degrees;
+    int16_t turn_steps = (float)(0.55)*degrees * magic;
     struct stepper copy1 = *stepperino1;
     struct stepper copy2 = *stepperino2;
 
@@ -89,6 +89,7 @@ void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct
 
     if(turn_steps > 0)
     {
+        turn_steps++;
         stepperino1->direction = forward;
         stepperino2->direction = forward;
         set_dir(stepperino1);
@@ -103,7 +104,7 @@ void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct
 
     if(turn_steps < 0)
     {
-        //turn_steps = abs(turn_steps);
+        turn_steps--;
         stepperino1->direction = backward;
         stepperino2->direction = backward;
         set_dir(stepperino1);

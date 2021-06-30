@@ -26,10 +26,18 @@ int main(void)
     stepper1.time_profile = 10;
     stepper2.time_profile = 10;
 
-    turn(-360, &stepper1, &stepper2);
+
+    turn(360, &stepper1, &stepper2);
     while(1)
     {
-      //turn(360, &stepper1, &stepper2);
+        //
+
+
+        Handle_steps(&stepper1);
+        Handle_steps(&stepper2);
+        set_dir(&stepper1);
+        set_dir(&stepper2);
+
     }
     ;
 
