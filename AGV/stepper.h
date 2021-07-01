@@ -39,5 +39,6 @@ void set_dir(volatile struct stepper *stepper);
 void Handle_steps(volatile struct stepper *stepperino);
 void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct stepper *stepperino2);
 void init_stepper_timer0();
+void accel_speed(volatile struct stepper *stepper);
 
 #endif // STEPPER_H_INCLUDED

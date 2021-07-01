@@ -24,17 +24,14 @@ int main(void)
 
     stepper2.direction = forward;
     stepper1.direction = backward;
-    stepper1.target_speed = 10;
-    stepper2.target_speed = 10;
+    stepper1.target_speed = 1;
+    stepper2.target_speed = 1;
 
 
     turn(360, &stepper1, &stepper2);
     while(1)
     {
         //
-
-        accel_speed(&stepper1);
-        accel_speed(&stepper2);
         Handle_steps(&stepper1);
         Handle_steps(&stepper2);
         set_dir(&stepper1);

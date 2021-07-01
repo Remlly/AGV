@@ -78,17 +78,18 @@ void static count_steps(volatile struct stepper *stepperino)
         }
 }
 
-void Handle_steps(volatile struct stepper *stepperino)
+void Handle_steps(volatile struct stepper *stepper)
 {
-    if(stepperino->current_speed == 0)
+    if(stepper->current_speed == 0)
     {
 
     }
-    else if(ms >= (stepperino->last_step + stepperino->current_speed))
+    else if(ms >= (stepper->last_step + stepper->current_speed))
     {
-        step(*stepperino);
-        stepperino->last_step = ms;
-        count_steps(stepperino);
+        step(*stepper);
+        accel_speed(stepper);
+        stepper->last_step = ms;
+        count_steps(stepper);
 
     }
 }
