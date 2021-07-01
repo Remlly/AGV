@@ -5,10 +5,29 @@
 
 #include "stepper.h"
 
+void accel_speed(volatile struct stepper *stepper)
+{
+    //take target_speed as target
+    //take current_speed as current
+    //compare current_speed with target_speed
+    //if current speed < target_speed -> accelarate ++
+    if(stepper->current_speed < stepper->target_speed)
+    {
+        stepper->current_speed++;
+    }
+    //if current speed > targetspeed > deccelerate
+    else if(stepper->current_speed > stepper->target_speed)
+    {
+        stepper->current_speed--;
+    }
+    //else we're on speed
+}
+
 void construct_stepper(volatile struct stepper *stepper, uint8_t step_pin, uint8_t dir_pin)
 {
     stepper->last_step = ms;
-    stepper->time_profile = 1;
+    stepper->target_speed = 1;
+    stepper->current_speed = 1;
     stepper->steps = 0;
     stepper->step_pin = step_pin;
     stepper->dir_pin = dir_pin;
@@ -61,11 +80,11 @@ void static count_steps(volatile struct stepper *stepperino)
 
 void Handle_steps(volatile struct stepper *stepperino)
 {
-    if(stepperino->time_profile == 0)
+    if(stepperino->current_speed == 0)
     {
 
     }
-    else if(ms >= (stepperino->last_step + stepperino->time_profile))
+    else if(ms >= (stepperino->last_step + stepperino->current_speed))
     {
         step(*stepperino);
         stepperino->last_step = ms;
@@ -80,9 +99,9 @@ void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct
     struct stepper copy1 = *stepperino1;
     struct stepper copy2 = *stepperino2;
 
-        stepperino1->time_profile = 10;
+        stepperino1->target_speed = 10;
         stepperino1->steps = 0;
-        stepperino2->time_profile = 10;
+        stepperino2->target_speed = 10;
         stepperino2->steps = 0;
 
     if(turn_steps > 0)

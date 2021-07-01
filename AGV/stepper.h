@@ -16,11 +16,14 @@
 
 struct stepper
 {
-    long int last_step;
-    uint8_t time_profile;
-    uint8_t direction;
     uint8_t step_pin;
     uint8_t dir_pin;
+
+    long int last_step;
+    uint8_t target_speed;
+    uint8_t current_speed;
+
+    uint8_t direction;
     int16_t steps;
 };
 
