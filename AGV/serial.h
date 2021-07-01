@@ -13,6 +13,6 @@ void USART_Init( unsigned int ubrr);
 uint8_t recieve_Byte(void);
 void transmit_byte(uint8_t byte);
 void recieve_string(char code[]);
-void print_byte(uint32_t byte);
+void print_int32(int32_t byte);
 
 #endif // SERIAL_H_INCLUDED
