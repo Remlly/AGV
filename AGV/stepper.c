@@ -1,7 +1,5 @@
 
 #include <avr/io.h>
-#include <stdio.h>
-#include "serial.h"
 #include "util/delay.h"
 #include <avr/interrupt.h>
 

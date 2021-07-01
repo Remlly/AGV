@@ -16,7 +16,6 @@ void USART_Init( unsigned int ubrr)
 
 uint8_t recieve_Byte(void)
 {
-    //moet worden vervangen met if. anders blijft de code hier hangen. als het aankomt blijft het toch in UDR0 staan totdat het wordt uitgelezen.
     loop_until_bit_is_set(UCSR0A, RXC0);
     {
      return UDR0;
@@ -29,15 +28,12 @@ uint8_t recieve_Byte(void)
 
 void transmit_byte(uint8_t byte)
 {
-    //vervangen met if
     loop_until_bit_is_set(UCSR0A, UDRE0);
     UDR0 = byte;
-
 }
 
-void print_byte(uint32_t byte)
+void print_int32(int32_t byte)
 {
-    //werkt niet zoals het hoort. volgorde verkeert?
     transmit_byte((byte/1000)%10);
     transmit_byte((byte/100)%10);
     transmit_byte((byte/10)%10);

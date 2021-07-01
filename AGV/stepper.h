@@ -8,8 +8,8 @@
 #define stepper_DDR DDRK
 #define stepper_port PORTK
 
-#define forward 1
-#define backward 2
+#define forward 2
+#define backward 1
 
 #define magic 4 //??????????????????????????????????????????
 
@@ -31,8 +31,8 @@ volatile struct stepper stepper2;
 void construct_stepper(volatile struct stepper *stepper, uint8_t step_pin, uint8_t dir_pin);
 void initialize_steppers();
 void set_dir(volatile struct stepper *stepper);
-void static step(struct stepper stepper);
-void static count_steps(volatile struct stepper *stepperino);
+//void static step(struct stepper stepper);
+//void static count_steps(volatile struct stepper *stepperino);
 void Handle_steps(volatile struct stepper *stepperino);
 void turn(int16_t degrees, volatile struct stepper *stepperino1, volatile struct stepper *stepperino2);
 void init_stepper_timer0();

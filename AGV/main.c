@@ -3,11 +3,12 @@
 
 #include <avr/io.h>
 #include <stdio.h>
-#include "serial.h"
-#include <util/delay.h>
+
+//#include <util/delay.h>
 #include <avr/interrupt.h>
 
 #include "stepper.h"
+#include "serial.h"
 
 int main(void)
 {
